@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ImageEditor
 {
@@ -331,6 +330,12 @@ namespace ImageEditor
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NewImage();
+        }
+
+        private void resizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.Show();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
