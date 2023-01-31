@@ -238,11 +238,15 @@ namespace ImageEditor
                 {
                     int intByte = fileStream.ReadByte();
                     if (intByte == -1)
+                    {
                         break;
+                    }
                     byte b = (byte)intByte;
                     //32 is space
                     if (b == 32)
+                    {
                         currentList++;
+                    }
                     else
                     {
                         switch (currentList)
