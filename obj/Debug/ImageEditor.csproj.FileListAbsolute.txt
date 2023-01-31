@@ -1,0 +1,22 @@
+C:\Users\Student\Desktop\Image Editor\ImageEditor\bin\Debug\ImageEditor.exe.config
+C:\Users\Student\Desktop\Image Editor\ImageEditor\bin\Debug\ImageEditor.exe
+C:\Users\Student\Desktop\Image Editor\ImageEditor\bin\Debug\ImageEditor.pdb
+C:\Users\Student\Desktop\Image Editor\ImageEditor\obj\Debug\ImageEditor.csproj.AssemblyReference.cache
+C:\Users\Student\Desktop\Image Editor\ImageEditor\obj\Debug\ImageEditor.csproj.SuggestedBindingRedirects.cache
+C:\Users\Student\Desktop\Image Editor\ImageEditor\obj\Debug\ImageEditor.Form1.resources
+C:\Users\Student\Desktop\Image Editor\ImageEditor\obj\Debug\ImageEditor.Properties.Resources.resources
+C:\Users\Student\Desktop\Image Editor\ImageEditor\obj\Debug\ImageEditor.csproj.GenerateResource.cache
+C:\Users\Student\Desktop\Image Editor\ImageEditor\obj\Debug\ImageEditor.csproj.CoreCompileInputs.cache
+C:\Users\Student\Desktop\Image Editor\ImageEditor\obj\Debug\ImageEditor.exe
+C:\Users\Student\Desktop\Image Editor\ImageEditor\obj\Debug\ImageEditor.pdb
+C:\Users\Student\Desktop\ImageEditor\bin\Debug\ImageEditor.exe.config
+C:\Users\Student\Desktop\ImageEditor\bin\Debug\ImageEditor.exe
+C:\Users\Student\Desktop\ImageEditor\bin\Debug\ImageEditor.pdb
+C:\Users\Student\Desktop\ImageEditor\obj\Debug\ImageEditor.csproj.AssemblyReference.cache
+C:\Users\Student\Desktop\ImageEditor\obj\Debug\ImageEditor.csproj.SuggestedBindingRedirects.cache
+C:\Users\Student\Desktop\ImageEditor\obj\Debug\ImageEditor.Form1.resources
+C:\Users\Student\Desktop\ImageEditor\obj\Debug\ImageEditor.Properties.Resources.resources
+C:\Users\Student\Desktop\ImageEditor\obj\Debug\ImageEditor.csproj.GenerateResource.cache
+C:\Users\Student\Desktop\ImageEditor\obj\Debug\ImageEditor.csproj.CoreCompileInputs.cache
+C:\Users\Student\Desktop\ImageEditor\obj\Debug\ImageEditor.exe
+C:\Users\Student\Desktop\ImageEditor\obj\Debug\ImageEditor.pdb
