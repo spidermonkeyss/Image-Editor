@@ -25,8 +25,14 @@ namespace ImageEditor
         public Form1()
         {
             InitializeComponent();
+            NewImage();
+        }
 
-            panelImageBitmap = new Bitmap(panel1.Width, panel1.Height);
+        private void NewImage()
+        {
+            panelImageBitmap = new Bitmap(256, 64);
+            panel1.Size = new Size(256, 64);
+
             for (int y = 0; y < panel1.Height; y++)
             {
                 for (int x = 0; x < panel1.Width; x++)
@@ -211,24 +217,9 @@ namespace ImageEditor
             {
                 //Get the path of specified file
                 string filePath = openFileDialog.FileName;
-
                 //Read the contents of the file into a stream
                 Stream fileStream = openFileDialog.OpenFile();
                 
-                //StreamReader reader = new StreamReader(fileStream);
-                //string fileContent = reader.ReadToEnd();
-                //string[] fileContents = fileContent.Split(' ');
-                //if (fileContents.Length != 3)
-                //{
-                //    Console.WriteLine("Open file failed. Could not read properly");
-                //    fileStream.Close();
-                //    return;
-                //}
-
-                //int imageWidth = int.Parse(fileContents[0]);
-                //int imageHeight = int.Parse(fileContents[1]);
-                //panelImageBitmap = new Bitmap(imageWidth, imageHeight);
-
                 fileStream.Position = 0;
                 List<byte> imageWidthBytes = new List<byte>();
                 List<byte> imageHeightBytes = new List<byte>();
@@ -274,6 +265,7 @@ namespace ImageEditor
                 int imageWidth = int.Parse(Encoding.UTF8.GetString(imageWidthBytes.ToArray()));
                 int imageHeight = int.Parse(Encoding.UTF8.GetString(imageHeightBytes.ToArray()));
                 panelImageBitmap = new Bitmap(imageWidth, imageHeight);
+                panel1.Size = new Size(imageWidth, imageHeight);
 
                 int i = 0;
                 for (int y = 0; y < imageHeight; y++)
@@ -334,6 +326,11 @@ namespace ImageEditor
                     myStream.Close();
                 }
             }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewImage();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
