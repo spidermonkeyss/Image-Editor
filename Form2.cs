@@ -32,6 +32,7 @@ namespace ImageEditor
             int heightValue;
             bool isWidthNum = int.TryParse(widthInputTextBox.Text, out widthValue);
             bool isHeightNum = int.TryParse(heightInputTextBox.Text, out heightValue);
+
             if (isWidthNum && isHeightNum)
             {
                 mainForm.ResizeImage(widthValue, heightValue);

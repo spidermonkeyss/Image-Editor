@@ -56,8 +56,8 @@ namespace ImageEditor
 
         private void NewImage()
         {
-            panelImageBitmap = new Bitmap(256, 64);
-            imagePanel.Size = new Size(256, 64);
+            panelImageBitmap = new Bitmap(500, 300);
+            imagePanel.Size = new Size(500, 300);
 
             for (int y = 0; y < imagePanel.Height; y++)
             {
@@ -95,8 +95,6 @@ namespace ImageEditor
             panelImageBitmap.SetPixel(x, y, drawColor);
             prevMouseX = x;
             prevMouseY = y;
-
-            //UpdatePanelImage();
         }
 
         private void DrawLineBetweenPoints(int startX, int startY, int endX, int endY)
@@ -213,18 +211,15 @@ namespace ImageEditor
 
         private void pickColorBtn_Click(object sender, EventArgs e)
         {
-            ColorDialog MyDialog = new ColorDialog();
-            // Keeps the user from selecting a custom color.
-            MyDialog.AllowFullOpen = false;
-            // Allows the user to get help. (The default is false.)
-            MyDialog.ShowHelp = true;
-            // Sets the initial color select to the current text color.
-            MyDialog.Color = drawColor;
+            ColorDialog colorDialog = new ColorDialog();
+            //Custom colors
+            colorDialog.AllowFullOpen = true;
+            colorDialog.ShowHelp = true;
+            colorDialog.Color = drawColor;
 
-            // Update the text box color if the user clicks OK 
-            if (MyDialog.ShowDialog() == DialogResult.OK)
+            if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                drawColor = MyDialog.Color;
+                drawColor = colorDialog.Color;
                 colorDisplayTextBox.BackColor = drawColor;
             }
         }

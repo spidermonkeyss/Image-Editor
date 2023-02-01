@@ -54,7 +54,7 @@
             this.imageToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(712, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1022, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -110,7 +110,7 @@
             this.imagePanel.Location = new System.Drawing.Point(20, 20);
             this.imagePanel.Name = "imagePanel";
             this.imagePanel.Padding = new System.Windows.Forms.Padding(10);
-            this.imagePanel.Size = new System.Drawing.Size(339, 275);
+            this.imagePanel.Size = new System.Drawing.Size(500, 300);
             this.imagePanel.TabIndex = 1;
             this.imagePanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.imagePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
@@ -151,7 +151,7 @@
             this.imageBackgroundContainerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageBackgroundContainerPanel.Location = new System.Drawing.Point(138, 33);
             this.imageBackgroundContainerPanel.Name = "imageBackgroundContainerPanel";
-            this.imageBackgroundContainerPanel.Size = new System.Drawing.Size(574, 405);
+            this.imageBackgroundContainerPanel.Size = new System.Drawing.Size(884, 527);
             this.imageBackgroundContainerPanel.TabIndex = 4;
             // 
             // leftPanel
@@ -165,14 +165,14 @@
             this.leftPanel.Location = new System.Drawing.Point(0, 33);
             this.leftPanel.MinimumSize = new System.Drawing.Size(138, 0);
             this.leftPanel.Name = "leftPanel";
-            this.leftPanel.Size = new System.Drawing.Size(138, 405);
+            this.leftPanel.Size = new System.Drawing.Size(138, 527);
             this.leftPanel.TabIndex = 5;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(712, 438);
+            this.ClientSize = new System.Drawing.Size(1022, 560);
             this.Controls.Add(this.imageBackgroundContainerPanel);
             this.Controls.Add(this.leftPanel);
             this.Controls.Add(this.menuStrip1);
