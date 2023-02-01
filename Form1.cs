@@ -16,11 +16,11 @@ namespace ImageEditor
 {
     public partial class Form1 : Form
     {
-        Bitmap panelImageBitmap;
-        bool isMouseDraw = false;
-        int prevMouseX, prevMouseY;
-        Color drawColor = Color.Black;
-        Color defaultColor = Color.White;
+        private Bitmap panelImageBitmap;
+        private bool isMouseDraw = false;
+        private int prevMouseX, prevMouseY;
+        private Color drawColor = Color.Black;
+        private Color defaultColor = Color.White;
 
         public Form1()
         {
@@ -30,7 +30,7 @@ namespace ImageEditor
             //This prevents flickering in the panel with the image
             typeof(Panel).InvokeMember("DoubleBuffered",
             BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
-            null, panel1, new object[] { true });
+            null, imagePanel, new object[] { true });
         }
 
         public void ResizeImage(int width, int height)
@@ -48,7 +48,7 @@ namespace ImageEditor
                 }
             }
 
-            panel1.Size = new Size(width, height);
+            imagePanel.Size = new Size(width, height);
             panelImageBitmap = tempMap;
 
             UpdatePanelImage();
@@ -57,11 +57,11 @@ namespace ImageEditor
         private void NewImage()
         {
             panelImageBitmap = new Bitmap(256, 64);
-            panel1.Size = new Size(256, 64);
+            imagePanel.Size = new Size(256, 64);
 
-            for (int y = 0; y < panel1.Height; y++)
+            for (int y = 0; y < imagePanel.Height; y++)
             {
-                for (int x = 0; x < panel1.Width; x++)
+                for (int x = 0; x < imagePanel.Width; x++)
                 {
                     panelImageBitmap.SetPixel(x, y, defaultColor);
                 }
@@ -71,10 +71,10 @@ namespace ImageEditor
 
         private void UpdatePanelImage()
         {
-            panel1.BackgroundImage = panelImageBitmap;
+            imagePanel.BackgroundImage = panelImageBitmap;
 
-            panel1.Invalidate();
-            panel1.Update();
+            imagePanel.Invalidate();
+            imagePanel.Update();
         }
 
         private void DrawPixel(int x, int y)
@@ -96,7 +96,7 @@ namespace ImageEditor
             prevMouseX = x;
             prevMouseY = y;
 
-            UpdatePanelImage();
+            //UpdatePanelImage();
         }
 
         private void DrawLineBetweenPoints(int startX, int startY, int endX, int endY)
@@ -188,6 +188,8 @@ namespace ImageEditor
                     }
                 }
             }
+
+            UpdatePanelImage();
         }
 
         /*--PanelImage stuff--*/
@@ -195,6 +197,7 @@ namespace ImageEditor
         {
             isMouseDraw = true;
             DrawPixel(e.X, e.Y);
+            UpdatePanelImage();
         }
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -286,7 +289,7 @@ namespace ImageEditor
                 int imageWidth = int.Parse(Encoding.UTF8.GetString(imageWidthBytes.ToArray()));
                 int imageHeight = int.Parse(Encoding.UTF8.GetString(imageHeightBytes.ToArray()));
                 panelImageBitmap = new Bitmap(imageWidth, imageHeight);
-                panel1.Size = new Size(imageWidth, imageHeight);
+                imagePanel.Size = new Size(imageWidth, imageHeight);
 
                 int i = 0;
                 for (int y = 0; y < imageHeight; y++)
@@ -358,11 +361,6 @@ namespace ImageEditor
         {
             ResizeForm form2 = new ResizeForm(this, panelImageBitmap.Width, panelImageBitmap.Height);
             form2.Show();
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-            base.OnPaint(e);
         }
     }
 }

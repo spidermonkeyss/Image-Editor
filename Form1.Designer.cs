@@ -35,10 +35,14 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.imagePanel = new System.Windows.Forms.Panel();
             this.pickColorBtn = new System.Windows.Forms.Button();
             this.colorDisplayTextBox = new System.Windows.Forms.TextBox();
+            this.imageBackgroundContainerPanel = new System.Windows.Forms.Panel();
+            this.leftPanel = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
+            this.imageBackgroundContainerPanel.SuspendLayout();
+            this.leftPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -50,7 +54,7 @@
             this.imageToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(712, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -100,23 +104,25 @@
             this.resizeToolStripMenuItem.Text = "Resize";
             this.resizeToolStripMenuItem.Click += new System.EventHandler(this.resizeToolStripMenuItem_Click);
             // 
-            // panel1
+            // imagePanel
             // 
-            this.panel1.Location = new System.Drawing.Point(169, 87);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(541, 278);
-            this.panel1.TabIndex = 1;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
+            this.imagePanel.AutoScroll = true;
+            this.imagePanel.Location = new System.Drawing.Point(20, 20);
+            this.imagePanel.Name = "imagePanel";
+            this.imagePanel.Padding = new System.Windows.Forms.Padding(10);
+            this.imagePanel.Size = new System.Drawing.Size(339, 275);
+            this.imagePanel.TabIndex = 1;
+            this.imagePanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            this.imagePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
+            this.imagePanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             // 
             // pickColorBtn
             // 
-            this.pickColorBtn.Location = new System.Drawing.Point(33, 163);
+            this.pickColorBtn.Location = new System.Drawing.Point(3, 3);
             this.pickColorBtn.Name = "pickColorBtn";
             this.pickColorBtn.Size = new System.Drawing.Size(93, 49);
             this.pickColorBtn.TabIndex = 2;
+            this.pickColorBtn.TabStop = false;
             this.pickColorBtn.Text = "Pick color";
             this.pickColorBtn.UseVisualStyleBackColor = true;
             this.pickColorBtn.Click += new System.EventHandler(this.pickColorBtn_Click);
@@ -128,25 +134,56 @@
             this.colorDisplayTextBox.Cursor = System.Windows.Forms.Cursors.Default;
             this.colorDisplayTextBox.Enabled = false;
             this.colorDisplayTextBox.ForeColor = System.Drawing.SystemColors.Window;
-            this.colorDisplayTextBox.Location = new System.Drawing.Point(66, 218);
+            this.colorDisplayTextBox.Location = new System.Drawing.Point(102, 15);
             this.colorDisplayTextBox.Name = "colorDisplayTextBox";
             this.colorDisplayTextBox.Size = new System.Drawing.Size(26, 26);
             this.colorDisplayTextBox.TabIndex = 3;
+            this.colorDisplayTextBox.TabStop = false;
+            // 
+            // imageBackgroundContainerPanel
+            // 
+            this.imageBackgroundContainerPanel.AutoScroll = true;
+            this.imageBackgroundContainerPanel.AutoScrollMargin = new System.Drawing.Size(10, 10);
+            this.imageBackgroundContainerPanel.AutoSize = true;
+            this.imageBackgroundContainerPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.imageBackgroundContainerPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.imageBackgroundContainerPanel.Controls.Add(this.imagePanel);
+            this.imageBackgroundContainerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBackgroundContainerPanel.Location = new System.Drawing.Point(138, 33);
+            this.imageBackgroundContainerPanel.Name = "imageBackgroundContainerPanel";
+            this.imageBackgroundContainerPanel.Size = new System.Drawing.Size(574, 405);
+            this.imageBackgroundContainerPanel.TabIndex = 4;
+            // 
+            // leftPanel
+            // 
+            this.leftPanel.AutoSize = true;
+            this.leftPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.leftPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.leftPanel.Controls.Add(this.pickColorBtn);
+            this.leftPanel.Controls.Add(this.colorDisplayTextBox);
+            this.leftPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.leftPanel.Location = new System.Drawing.Point(0, 33);
+            this.leftPanel.MinimumSize = new System.Drawing.Size(138, 0);
+            this.leftPanel.Name = "leftPanel";
+            this.leftPanel.Size = new System.Drawing.Size(138, 405);
+            this.leftPanel.TabIndex = 5;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.colorDisplayTextBox);
-            this.Controls.Add(this.pickColorBtn);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(712, 438);
+            this.Controls.Add(this.imageBackgroundContainerPanel);
+            this.Controls.Add(this.leftPanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Image Editor";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.imageBackgroundContainerPanel.ResumeLayout(false);
+            this.leftPanel.ResumeLayout(false);
+            this.leftPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -159,11 +196,13 @@
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel imagePanel;
         private System.Windows.Forms.Button pickColorBtn;
         private System.Windows.Forms.TextBox colorDisplayTextBox;
         private System.Windows.Forms.ToolStripMenuItem imageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resizeToolStripMenuItem;
+        private System.Windows.Forms.Panel imageBackgroundContainerPanel;
+        private System.Windows.Forms.Panel leftPanel;
     }
 }
 
