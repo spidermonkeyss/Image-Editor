@@ -20,11 +20,38 @@ namespace ImageEditor
         bool isMouseDraw = false;
         int prevMouseX, prevMouseY;
         Color drawColor = Color.Black;
+        Color defaultColor = Color.White;
 
         public Form1()
         {
             InitializeComponent();
             NewImage();
+
+            //This prevents flickering in the panel with the image
+            typeof(Panel).InvokeMember("DoubleBuffered",
+            BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+            null, panel1, new object[] { true });
+        }
+
+        public void ResizeImage(int width, int height)
+        {
+            Bitmap tempMap = new Bitmap(width, height);
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (x < panelImageBitmap.Width && y < panelImageBitmap.Height)
+                        tempMap.SetPixel(x, y, panelImageBitmap.GetPixel(x,y));
+                    else
+                        tempMap.SetPixel(x, y, defaultColor);
+                }
+            }
+
+            panel1.Size = new Size(width, height);
+            panelImageBitmap = tempMap;
+
+            UpdatePanelImage();
         }
 
         private void NewImage()
@@ -36,15 +63,10 @@ namespace ImageEditor
             {
                 for (int x = 0; x < panel1.Width; x++)
                 {
-                    panelImageBitmap.SetPixel(x, y, Color.White);
+                    panelImageBitmap.SetPixel(x, y, defaultColor);
                 }
             }
             UpdatePanelImage();
-
-            //This prevents flickering in the panel with the image
-            typeof(Panel).InvokeMember("DoubleBuffered",
-            BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
-            null, panel1, new object[] { true });
         }
 
         private void UpdatePanelImage()
@@ -334,7 +356,7 @@ namespace ImageEditor
 
         private void resizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2();
+            ResizeForm form2 = new ResizeForm(this, panelImageBitmap.Width, panelImageBitmap.Height);
             form2.Show();
         }
 
