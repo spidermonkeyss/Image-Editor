@@ -20,12 +20,18 @@ namespace ImageEditor
         private bool isMouseDraw = false;
         private int prevMouseX, prevMouseY;
         private Color drawColor = Color.Black;
-        private Color defaultColor = Color.White;
+        private Color clearColor;
 
         public Form1()
         {
             InitializeComponent();
             NewImage();
+
+            clearColor = new Color();
+            
+            imagePanel.BackColor = Color.Transparent;
+            checkeredPanel.Size = imagePanel.Size;
+            checkeredPanel.Location = imagePanel.Location;
 
             //This prevents flickering in the panel with the image
             typeof(Panel).InvokeMember("DoubleBuffered",
@@ -44,7 +50,7 @@ namespace ImageEditor
                     if (x < panelImageBitmap.Width && y < panelImageBitmap.Height)
                         tempMap.SetPixel(x, y, panelImageBitmap.GetPixel(x,y));
                     else
-                        tempMap.SetPixel(x, y, defaultColor);
+                        tempMap.SetPixel(x, y, clearColor);
                 }
             }
 
@@ -63,7 +69,7 @@ namespace ImageEditor
             {
                 for (int x = 0; x < imagePanel.Width; x++)
                 {
-                    panelImageBitmap.SetPixel(x, y, defaultColor);
+                    panelImageBitmap.SetPixel(x, y, clearColor);
                 }
             }
             UpdatePanelImage();
@@ -72,6 +78,8 @@ namespace ImageEditor
         private void UpdatePanelImage()
         {
             imagePanel.BackgroundImage = panelImageBitmap;
+            checkeredPanel.Size = imagePanel.Size;
+            checkeredPanel.Location = imagePanel.Location;
 
             imagePanel.Invalidate();
             imagePanel.Update();
@@ -224,83 +232,104 @@ namespace ImageEditor
             }
         }
 
+        private bool LoadMyImageFile(OpenFileDialog openFileDialog)
+        {
+            //Read the contents of the file into a stream
+            Stream fileStream = openFileDialog.OpenFile();
+
+            fileStream.Position = 0;
+            List<byte> imageWidthBytes = new List<byte>();
+            List<byte> imageHeightBytes = new List<byte>();
+            List<byte> imageBytes = new List<byte>();
+            int currentList = 0;
+            while (fileStream.Position < fileStream.Length)
+            {
+                int intByte = fileStream.ReadByte();
+                if (intByte == -1)
+                {
+                    break;
+                }
+                byte b = (byte)intByte;
+                //32 is space
+                if (b == 32 && currentList < 2)
+                {
+                    currentList++;
+                }
+                else
+                {
+                    switch (currentList)
+                    {
+                        case 0:
+                            imageWidthBytes.Add(b);
+                            break;
+                        case 1:
+                            imageHeightBytes.Add(b);
+                            break;
+                        case 2:
+                            imageBytes.Add(b);
+                            break;
+                    }
+                }
+            }
+
+            int imageWidth;
+            int imageHeight;
+            bool isWidth = int.TryParse(Encoding.UTF8.GetString(imageWidthBytes.ToArray()), out imageWidth);
+            bool isHeight = int.TryParse(Encoding.UTF8.GetString(imageHeightBytes.ToArray()), out imageHeight);
+
+            if ((!isWidth || !isHeight) || imageBytes.Count % 4 != 0 || (imageWidth*imageHeight) != imageBytes.Count / 4)
+            {
+                Console.WriteLine("Open file failed. Could not read properly");
+                fileStream.Close();
+                return false;
+            }
+            panelImageBitmap = new Bitmap(imageWidth, imageHeight);
+            imagePanel.Size = new Size(imageWidth, imageHeight);
+
+            int i = 0;
+            for (int y = 0; y < imageHeight; y++)
+            {
+                for (int x = 0; x < imageWidth; x++)
+                {
+
+                    byte R = imageBytes[i + 0];
+                    byte G = imageBytes[i + 1];
+                    byte B = imageBytes[i + 2];
+                    byte A = imageBytes[i + 3];
+                    panelImageBitmap.SetPixel(x, y, Color.FromArgb(A, R, G, B));
+                    i += 4;
+                }
+            }
+            fileStream.Close();
+            return true;
+        }
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = "c:/Users/Student/Desktop";
-            openFileDialog.Filter = "myimage files (*.myimage)|*.myimage";
-            openFileDialog.FilterIndex = 2;
+            openFileDialog.Filter = "myimage files (*.myimage)|*.myimage|png files (*.png)|*.png";
+            openFileDialog.FilterIndex = 1;
             openFileDialog.RestoreDirectory = true;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 //Get the path of specified file
                 string filePath = openFileDialog.FileName;
-                //Read the contents of the file into a stream
-                Stream fileStream = openFileDialog.OpenFile();
-                
-                fileStream.Position = 0;
-                List<byte> imageWidthBytes = new List<byte>();
-                List<byte> imageHeightBytes = new List<byte>();
-                List<byte> imageBytes = new List<byte>();
-                int currentList = 0;
-                while (fileStream.Position < fileStream.Length)
+                string extension = Path.GetExtension(filePath);
+
+                //Load known file types
+                if (extension == ".png")
                 {
-                    int intByte = fileStream.ReadByte();
-                    if (intByte == -1)
-                    {
-                        break;
-                    }
-                    byte b = (byte)intByte;
-                    //32 is space
-                    if (b == 32)
-                    {
-                        currentList++;
-                    }
-                    else
-                    {
-                        switch (currentList)
-                        {
-                            case 0:
-                                imageWidthBytes.Add(b);
-                                break;
-                            case 1:
-                                imageHeightBytes.Add(b);
-                                break;
-                            case 2:
-                                imageBytes.Add(b);
-                                break;
-                        }
-                    }
+                    panelImageBitmap = new Bitmap(filePath);
+                    imagePanel.Size = new Size(panelImageBitmap.Width, panelImageBitmap.Height);
+                    Console.WriteLine("PNG Loaded");
                 }
-
-                if (currentList > 2)
+                //Load my own file type
+                else
                 {
-                    Console.WriteLine("Open file failed. Could not read properly");
-                    fileStream.Close();
-                    return;
+                    LoadMyImageFile(openFileDialog);
                 }
-
-                int imageWidth = int.Parse(Encoding.UTF8.GetString(imageWidthBytes.ToArray()));
-                int imageHeight = int.Parse(Encoding.UTF8.GetString(imageHeightBytes.ToArray()));
-                panelImageBitmap = new Bitmap(imageWidth, imageHeight);
-                imagePanel.Size = new Size(imageWidth, imageHeight);
-
-                int i = 0;
-                for (int y = 0; y < imageHeight; y++)
-                {
-                    for (int x = 0; x < imageWidth; x++)
-                    {
-
-                        byte R = imageBytes[i + 0];
-                        byte G = imageBytes[i + 1];
-                        byte B = imageBytes[i + 2];
-                        byte A = imageBytes[i + 3];
-                        panelImageBitmap.SetPixel(x, y, Color.FromArgb(A, R, G, B));
-                        i += 4;
-                    }
-                }
-                fileStream.Close();
                 UpdatePanelImage();
             }
         }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,9 +40,11 @@
             this.pickColorBtn = new System.Windows.Forms.Button();
             this.colorDisplayTextBox = new System.Windows.Forms.TextBox();
             this.imageBackgroundContainerPanel = new System.Windows.Forms.Panel();
+            this.checkeredPanel = new System.Windows.Forms.Panel();
             this.leftPanel = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.imageBackgroundContainerPanel.SuspendLayout();
+            this.checkeredPanel.SuspendLayout();
             this.leftPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -107,9 +110,10 @@
             // imagePanel
             // 
             this.imagePanel.AutoScroll = true;
-            this.imagePanel.Location = new System.Drawing.Point(20, 20);
+            this.imagePanel.BackColor = System.Drawing.Color.White;
+            this.imagePanel.Location = new System.Drawing.Point(0, 0);
+            this.imagePanel.Margin = new System.Windows.Forms.Padding(0);
             this.imagePanel.Name = "imagePanel";
-            this.imagePanel.Padding = new System.Windows.Forms.Padding(10);
             this.imagePanel.Size = new System.Drawing.Size(500, 300);
             this.imagePanel.TabIndex = 1;
             this.imagePanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
@@ -147,12 +151,23 @@
             this.imageBackgroundContainerPanel.AutoSize = true;
             this.imageBackgroundContainerPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.imageBackgroundContainerPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.imageBackgroundContainerPanel.Controls.Add(this.imagePanel);
+            this.imageBackgroundContainerPanel.Controls.Add(this.checkeredPanel);
             this.imageBackgroundContainerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageBackgroundContainerPanel.Location = new System.Drawing.Point(138, 33);
             this.imageBackgroundContainerPanel.Name = "imageBackgroundContainerPanel";
             this.imageBackgroundContainerPanel.Size = new System.Drawing.Size(884, 527);
             this.imageBackgroundContainerPanel.TabIndex = 4;
+            // 
+            // checkeredPanel
+            // 
+            this.checkeredPanel.BackColor = System.Drawing.Color.White;
+            this.checkeredPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkeredPanel.BackgroundImage")));
+            this.checkeredPanel.Controls.Add(this.imagePanel);
+            this.checkeredPanel.Location = new System.Drawing.Point(0, 0);
+            this.checkeredPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.checkeredPanel.Name = "checkeredPanel";
+            this.checkeredPanel.Size = new System.Drawing.Size(500, 300);
+            this.checkeredPanel.TabIndex = 2;
             // 
             // leftPanel
             // 
@@ -182,6 +197,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.imageBackgroundContainerPanel.ResumeLayout(false);
+            this.checkeredPanel.ResumeLayout(false);
             this.leftPanel.ResumeLayout(false);
             this.leftPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -203,6 +219,7 @@
         private System.Windows.Forms.ToolStripMenuItem resizeToolStripMenuItem;
         private System.Windows.Forms.Panel imageBackgroundContainerPanel;
         private System.Windows.Forms.Panel leftPanel;
+        private System.Windows.Forms.Panel checkeredPanel;
     }
 }
 
