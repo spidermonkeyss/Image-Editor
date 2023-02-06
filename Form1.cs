@@ -17,22 +17,19 @@ namespace ImageEditor
     public partial class Form1 : Form
     {
         private Bitmap panelImageBitmap;
+        private Bitmap backgroundCheckerBitmap;
         private bool isMouseDraw = false;
         private int prevMouseX, prevMouseY;
         private Color drawColor = Color.Black;
-        private Color clearColor;
+        private Color clearColor = new Color();
 
         public Form1()
         {
             InitializeComponent();
             NewImage();
 
-            clearColor = new Color();
-            
             imagePanel.BackColor = Color.Transparent;
-            checkeredPanel.Size = imagePanel.Size;
-            checkeredPanel.Location = imagePanel.Location;
-
+            
             //This prevents flickering in the panel with the image
             typeof(Panel).InvokeMember("DoubleBuffered",
             BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
@@ -57,6 +54,7 @@ namespace ImageEditor
             imagePanel.Size = new Size(width, height);
             panelImageBitmap = tempMap;
 
+            UpdateTransparentBackground();
             UpdatePanelImage();
         }
 
@@ -72,14 +70,67 @@ namespace ImageEditor
                     panelImageBitmap.SetPixel(x, y, clearColor);
                 }
             }
+            UpdateTransparentBackground();
             UpdatePanelImage();
+        }
+
+        private void UpdateTransparentBackground()
+        {
+            checkeredPanel.Size = imagePanel.Size;
+            checkeredPanel.Location = imagePanel.Location;
+
+            backgroundCheckerBitmap = new Bitmap(panelImageBitmap.Width, panelImageBitmap.Height);
+
+            const int cellSize = 50;
+            int currentCellWidth = 0;
+            int currentCellHeight = 0;
+            bool isWhiteCell = true;
+            bool isFirstCellOfRowWhite = isWhiteCell;
+            for(int y = 0; y < backgroundCheckerBitmap.Height; y++)
+            {
+                for (int x = 0; x < backgroundCheckerBitmap.Width; x++)
+                {
+                    if (isWhiteCell)
+                    {
+                        backgroundCheckerBitmap.SetPixel(x, y, Color.White);
+                    }
+                    else
+                    {
+                        backgroundCheckerBitmap.SetPixel(x, y, Color.LightGray);
+                    }
+
+                    currentCellWidth++;
+                    if (currentCellWidth == cellSize)
+                    {
+                        currentCellWidth = 0;
+                        isWhiteCell = !isWhiteCell;
+                    }
+                }
+                
+                currentCellWidth = 0;
+
+                //Make sure cell is same color till new cell
+                isWhiteCell = isFirstCellOfRowWhite;
+
+                currentCellHeight++;
+                if (currentCellHeight == cellSize)
+                {
+                    //Make sure first cell of row is oppsite of cell above
+                    isWhiteCell = !isFirstCellOfRowWhite;
+                    isFirstCellOfRowWhite = isWhiteCell;
+                    currentCellHeight = 0;
+                }
+            }
+
+            checkeredPanel.BackgroundImage = backgroundCheckerBitmap;
+
+            imagePanel.Invalidate();
+            imagePanel.Update();
         }
 
         private void UpdatePanelImage()
         {
             imagePanel.BackgroundImage = panelImageBitmap;
-            checkeredPanel.Size = imagePanel.Size;
-            checkeredPanel.Location = imagePanel.Location;
 
             imagePanel.Invalidate();
             imagePanel.Update();
@@ -307,7 +358,7 @@ namespace ImageEditor
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = "c:/Users/Student/Desktop";
+            openFileDialog.InitialDirectory = "c:/Users/Student/Pictures";
             openFileDialog.Filter = "myimage files (*.myimage)|*.myimage|png files (*.png)|*.png";
             openFileDialog.FilterIndex = 1;
             openFileDialog.RestoreDirectory = true;
@@ -330,6 +381,8 @@ namespace ImageEditor
                 {
                     LoadMyImageFile(openFileDialog);
                 }
+
+                UpdateTransparentBackground();
                 UpdatePanelImage();
             }
         }
@@ -379,6 +432,11 @@ namespace ImageEditor
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NewImage();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void resizeToolStripMenuItem_Click(object sender, EventArgs e)

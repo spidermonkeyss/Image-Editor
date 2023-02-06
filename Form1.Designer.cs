@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,6 +41,7 @@
             this.imageBackgroundContainerPanel = new System.Windows.Forms.Panel();
             this.checkeredPanel = new System.Windows.Forms.Panel();
             this.leftPanel = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.imageBackgroundContainerPanel.SuspendLayout();
             this.checkeredPanel.SuspendLayout();
@@ -160,8 +160,7 @@
             // 
             // checkeredPanel
             // 
-            this.checkeredPanel.BackColor = System.Drawing.Color.White;
-            this.checkeredPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkeredPanel.BackgroundImage")));
+            this.checkeredPanel.BackColor = System.Drawing.Color.Black;
             this.checkeredPanel.Controls.Add(this.imagePanel);
             this.checkeredPanel.Location = new System.Drawing.Point(0, 0);
             this.checkeredPanel.Margin = new System.Windows.Forms.Padding(0);
@@ -174,6 +173,7 @@
             this.leftPanel.AutoSize = true;
             this.leftPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.leftPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.leftPanel.Controls.Add(this.checkBox1);
             this.leftPanel.Controls.Add(this.pickColorBtn);
             this.leftPanel.Controls.Add(this.colorDisplayTextBox);
             this.leftPanel.Dock = System.Windows.Forms.DockStyle.Left;
@@ -182,6 +182,17 @@
             this.leftPanel.Name = "leftPanel";
             this.leftPanel.Size = new System.Drawing.Size(138, 527);
             this.leftPanel.TabIndex = 5;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(12, 58);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(77, 24);
+            this.checkBox1.TabIndex = 4;
+            this.checkBox1.Text = "Erase";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // Form1
             // 
@@ -220,6 +231,7 @@
         private System.Windows.Forms.Panel imageBackgroundContainerPanel;
         private System.Windows.Forms.Panel leftPanel;
         private System.Windows.Forms.Panel checkeredPanel;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
