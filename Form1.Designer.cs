@@ -178,6 +178,7 @@
             // boxSelectionPanel
             // 
             this.boxSelectionPanel.BackColor = System.Drawing.Color.Transparent;
+            this.boxSelectionPanel.Enabled = false;
             this.boxSelectionPanel.Location = new System.Drawing.Point(0, 0);
             this.boxSelectionPanel.Name = "boxSelectionPanel";
             this.boxSelectionPanel.Size = new System.Drawing.Size(0, 0);

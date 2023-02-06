@@ -155,8 +155,8 @@ namespace ImageEditor
             boxSelectionPanel.Size = new Size(botRight.X - topLeft.X, botRight.Y - topLeft.Y);
             boxSelectionPanel.Location = topLeft;
 
-            //boxSelectionPanel.Invalidate();
-            //boxSelectionPanel.Update();
+            boxSelectionPanel.Invalidate();
+            boxSelectionPanel.Update();
         }
 
         private void DrawPixel(int x, int y)
@@ -284,6 +284,8 @@ namespace ImageEditor
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             isMouseDown = true;
+            boxSelectionPanel.Visible = false;
+
             if (toolSelection == ToolSelection.Draw || toolSelection == ToolSelection.Erase)
             {
                 DrawPixel(e.X, e.Y);
