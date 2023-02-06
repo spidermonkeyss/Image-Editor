@@ -40,12 +40,18 @@
             this.colorDisplayTextBox = new System.Windows.Forms.TextBox();
             this.imageBackgroundContainerPanel = new System.Windows.Forms.Panel();
             this.checkeredPanel = new System.Windows.Forms.Panel();
+            this.boxSelectionPanel = new System.Windows.Forms.Panel();
             this.leftPanel = new System.Windows.Forms.Panel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.toolGroupBox = new System.Windows.Forms.GroupBox();
+            this.boxRadioButton = new System.Windows.Forms.RadioButton();
+            this.drawRadioButton = new System.Windows.Forms.RadioButton();
+            this.eraseRadioButton = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
+            this.imagePanel.SuspendLayout();
             this.imageBackgroundContainerPanel.SuspendLayout();
             this.checkeredPanel.SuspendLayout();
             this.leftPanel.SuspendLayout();
+            this.toolGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -111,6 +117,7 @@
             // 
             this.imagePanel.AutoScroll = true;
             this.imagePanel.BackColor = System.Drawing.Color.White;
+            this.imagePanel.Controls.Add(this.boxSelectionPanel);
             this.imagePanel.Location = new System.Drawing.Point(0, 0);
             this.imagePanel.Margin = new System.Windows.Forms.Padding(0);
             this.imagePanel.Name = "imagePanel";
@@ -168,12 +175,21 @@
             this.checkeredPanel.Size = new System.Drawing.Size(500, 300);
             this.checkeredPanel.TabIndex = 2;
             // 
+            // boxSelectionPanel
+            // 
+            this.boxSelectionPanel.BackColor = System.Drawing.Color.Transparent;
+            this.boxSelectionPanel.Location = new System.Drawing.Point(0, 0);
+            this.boxSelectionPanel.Name = "boxSelectionPanel";
+            this.boxSelectionPanel.Size = new System.Drawing.Size(0, 0);
+            this.boxSelectionPanel.TabIndex = 3;
+            this.boxSelectionPanel.Visible = false;
+            // 
             // leftPanel
             // 
             this.leftPanel.AutoSize = true;
             this.leftPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.leftPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.leftPanel.Controls.Add(this.checkBox1);
+            this.leftPanel.Controls.Add(this.toolGroupBox);
             this.leftPanel.Controls.Add(this.pickColorBtn);
             this.leftPanel.Controls.Add(this.colorDisplayTextBox);
             this.leftPanel.Dock = System.Windows.Forms.DockStyle.Left;
@@ -183,16 +199,52 @@
             this.leftPanel.Size = new System.Drawing.Size(138, 527);
             this.leftPanel.TabIndex = 5;
             // 
-            // checkBox1
+            // toolGroupBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 58);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(77, 24);
-            this.checkBox1.TabIndex = 4;
-            this.checkBox1.Text = "Erase";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.toolGroupBox.Controls.Add(this.boxRadioButton);
+            this.toolGroupBox.Controls.Add(this.drawRadioButton);
+            this.toolGroupBox.Controls.Add(this.eraseRadioButton);
+            this.toolGroupBox.Location = new System.Drawing.Point(12, 58);
+            this.toolGroupBox.Name = "toolGroupBox";
+            this.toolGroupBox.Size = new System.Drawing.Size(116, 118);
+            this.toolGroupBox.TabIndex = 7;
+            this.toolGroupBox.TabStop = false;
+            this.toolGroupBox.Text = "Tools";
+            // 
+            // boxRadioButton
+            // 
+            this.boxRadioButton.AutoSize = true;
+            this.boxRadioButton.Location = new System.Drawing.Point(12, 85);
+            this.boxRadioButton.Name = "boxRadioButton";
+            this.boxRadioButton.Size = new System.Drawing.Size(61, 24);
+            this.boxRadioButton.TabIndex = 7;
+            this.boxRadioButton.TabStop = true;
+            this.boxRadioButton.Text = "Box";
+            this.boxRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // drawRadioButton
+            // 
+            this.drawRadioButton.AutoSize = true;
+            this.drawRadioButton.Checked = true;
+            this.drawRadioButton.Location = new System.Drawing.Point(12, 25);
+            this.drawRadioButton.Name = "drawRadioButton";
+            this.drawRadioButton.Size = new System.Drawing.Size(71, 24);
+            this.drawRadioButton.TabIndex = 5;
+            this.drawRadioButton.TabStop = true;
+            this.drawRadioButton.Text = "Draw";
+            this.drawRadioButton.UseVisualStyleBackColor = true;
+            this.drawRadioButton.CheckedChanged += new System.EventHandler(this.toolSelectionRadioButton_CheckedChanged);
+            // 
+            // eraseRadioButton
+            // 
+            this.eraseRadioButton.AutoSize = true;
+            this.eraseRadioButton.Location = new System.Drawing.Point(12, 55);
+            this.eraseRadioButton.Name = "eraseRadioButton";
+            this.eraseRadioButton.Size = new System.Drawing.Size(76, 24);
+            this.eraseRadioButton.TabIndex = 6;
+            this.eraseRadioButton.Text = "Erase";
+            this.eraseRadioButton.UseVisualStyleBackColor = true;
+            this.eraseRadioButton.CheckedChanged += new System.EventHandler(this.toolSelectionRadioButton_CheckedChanged);
             // 
             // Form1
             // 
@@ -207,10 +259,13 @@
             this.Text = "Image Editor";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.imagePanel.ResumeLayout(false);
             this.imageBackgroundContainerPanel.ResumeLayout(false);
             this.checkeredPanel.ResumeLayout(false);
             this.leftPanel.ResumeLayout(false);
             this.leftPanel.PerformLayout();
+            this.toolGroupBox.ResumeLayout(false);
+            this.toolGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,7 +286,11 @@
         private System.Windows.Forms.Panel imageBackgroundContainerPanel;
         private System.Windows.Forms.Panel leftPanel;
         private System.Windows.Forms.Panel checkeredPanel;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.RadioButton drawRadioButton;
+        private System.Windows.Forms.RadioButton eraseRadioButton;
+        private System.Windows.Forms.GroupBox toolGroupBox;
+        private System.Windows.Forms.RadioButton boxRadioButton;
+        private System.Windows.Forms.Panel boxSelectionPanel;
     }
 }
 

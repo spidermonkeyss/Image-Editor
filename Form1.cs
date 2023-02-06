@@ -16,10 +16,14 @@ namespace ImageEditor
 {
     public partial class Form1 : Form
     {
+        private enum ToolSelection { Draw, Erase , Box }
+        private ToolSelection toolSelection;
+
         private Bitmap panelImageBitmap;
         private Bitmap backgroundCheckerBitmap;
-        private bool isMouseDraw = false;
+        private bool isMouseDown = false;
         private int prevMouseX, prevMouseY;
+        private Point boxInitalPoint;
         private Color drawColor = Color.Black;
         private Color clearColor = new Color();
 
@@ -27,13 +31,21 @@ namespace ImageEditor
         {
             InitializeComponent();
             NewImage();
-
-            imagePanel.BackColor = Color.Transparent;
             
+            imagePanel.BackColor = Color.Transparent;
+            drawRadioButton.Checked = true;
+            toolSelection = ToolSelection.Draw;
+
+            DoubleBuffered = true;
+
             //This prevents flickering in the panel with the image
             typeof(Panel).InvokeMember("DoubleBuffered",
             BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
             null, imagePanel, new object[] { true });
+
+            typeof(Panel).InvokeMember("DoubleBuffered",
+           BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+           null, boxSelectionPanel, new object[] { true });
         }
 
         public void ResizeImage(int width, int height)
@@ -136,22 +148,41 @@ namespace ImageEditor
             imagePanel.Update();
         }
 
+        private void UpdateBoxSelction(int x, int y)
+        {
+            Point topLeft = new Point(Math.Min(x, boxInitalPoint.X), Math.Min(y, boxInitalPoint.Y));
+            Point botRight = new Point(Math.Max(x, boxInitalPoint.X), Math.Max(y, boxInitalPoint.Y));
+            boxSelectionPanel.Size = new Size(botRight.X - topLeft.X, botRight.Y - topLeft.Y);
+            boxSelectionPanel.Location = topLeft;
+
+            //boxSelectionPanel.Invalidate();
+            //boxSelectionPanel.Update();
+        }
+
         private void DrawPixel(int x, int y)
         {
             if (x < 0 || x >= panelImageBitmap.Width)
             {
                 Console.WriteLine("x out of panel");
-                isMouseDraw = false;
+                isMouseDown = false;
                 return;
             }
             if (y < 0 || y >= panelImageBitmap.Height)
             {
                 Console.WriteLine("y out of panel");
-                isMouseDraw = false;
+                isMouseDown = false;
                 return;
             }
 
-            panelImageBitmap.SetPixel(x, y, drawColor);
+            if (toolSelection == ToolSelection.Draw)
+            {
+                panelImageBitmap.SetPixel(x, y, drawColor);
+            }
+            else if (toolSelection == ToolSelection.Erase)
+            {
+                panelImageBitmap.SetPixel(x, y, Color.FromArgb(0,0,0,0));
+            }
+
             prevMouseX = x;
             prevMouseY = y;
         }
@@ -252,19 +283,39 @@ namespace ImageEditor
         /*--PanelImage stuff--*/
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            isMouseDraw = true;
-            DrawPixel(e.X, e.Y);
-            UpdatePanelImage();
+            isMouseDown = true;
+            if (toolSelection == ToolSelection.Draw || toolSelection == ToolSelection.Erase)
+            {
+                DrawPixel(e.X, e.Y);
+                UpdatePanelImage();
+            }
+            else if (toolSelection == ToolSelection.Box)
+            {
+                boxInitalPoint = new Point(e.X, e.Y);
+                boxSelectionPanel.BackColor = Color.FromArgb(100, 0, 0, 255);
+                boxSelectionPanel.Visible = true;
+
+                UpdateBoxSelction(e.X, e.Y);
+            }
         }
+
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
-            isMouseDraw = false;
+            isMouseDown = false;
         }
+
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isMouseDraw)
+            if (isMouseDown)
             {
-                DrawLineBetweenPoints(prevMouseX, prevMouseY ,e.X, e.Y);
+                if (toolSelection == ToolSelection.Draw || toolSelection == ToolSelection.Erase)
+                {
+                    DrawLineBetweenPoints(prevMouseX, prevMouseY ,e.X, e.Y);
+                }
+                else if (toolSelection == ToolSelection.Box)
+                {
+                    UpdateBoxSelction(e.X, e.Y);
+                }
             }
         }
 
@@ -434,9 +485,20 @@ namespace ImageEditor
             NewImage();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void toolSelectionRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (drawRadioButton.Checked)
+            {
+                toolSelection = ToolSelection.Draw;
+            }
+            else if (eraseRadioButton.Checked)
+            {
+                toolSelection = ToolSelection.Erase;
+            }
+            else if (boxRadioButton.Checked)
+            {
+                toolSelection = ToolSelection.Box;
+            }
         }
 
         private void resizeToolStripMenuItem_Click(object sender, EventArgs e)
