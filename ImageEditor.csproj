@@ -61,8 +61,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\BoxSelectionTool.cs" />
+    <Compile Include="Tools\BucketTool.cs" />
     <Compile Include="Tools\DrawTool.cs" />
     <Compile Include="Tools\EraseTool.cs" />
+    <Compile Include="Tools\PencilTool.cs" />
     <Compile Include="Tools\Tool.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

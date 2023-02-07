@@ -36,22 +36,25 @@
             this.imageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imagePanel = new System.Windows.Forms.Panel();
+            this.boxSelectionPanel = new System.Windows.Forms.Panel();
             this.pickColorBtn = new System.Windows.Forms.Button();
             this.colorDisplayTextBox = new System.Windows.Forms.TextBox();
             this.imageBackgroundContainerPanel = new System.Windows.Forms.Panel();
             this.checkeredPanel = new System.Windows.Forms.Panel();
-            this.boxSelectionPanel = new System.Windows.Forms.Panel();
             this.leftPanel = new System.Windows.Forms.Panel();
             this.toolGroupBox = new System.Windows.Forms.GroupBox();
             this.boxRadioButton = new System.Windows.Forms.RadioButton();
             this.drawRadioButton = new System.Windows.Forms.RadioButton();
             this.eraseRadioButton = new System.Windows.Forms.RadioButton();
+            this.bottomPanel = new System.Windows.Forms.Panel();
+            this.selectionAreaTextBox = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.imagePanel.SuspendLayout();
             this.imageBackgroundContainerPanel.SuspendLayout();
             this.checkeredPanel.SuspendLayout();
             this.leftPanel.SuspendLayout();
             this.toolGroupBox.SuspendLayout();
+            this.bottomPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -127,6 +130,16 @@
             this.imagePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
             this.imagePanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             // 
+            // boxSelectionPanel
+            // 
+            this.boxSelectionPanel.BackColor = System.Drawing.Color.Transparent;
+            this.boxSelectionPanel.Enabled = false;
+            this.boxSelectionPanel.Location = new System.Drawing.Point(0, 0);
+            this.boxSelectionPanel.Name = "boxSelectionPanel";
+            this.boxSelectionPanel.Size = new System.Drawing.Size(0, 0);
+            this.boxSelectionPanel.TabIndex = 3;
+            this.boxSelectionPanel.Visible = false;
+            // 
             // pickColorBtn
             // 
             this.pickColorBtn.Location = new System.Drawing.Point(3, 3);
@@ -162,7 +175,7 @@
             this.imageBackgroundContainerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageBackgroundContainerPanel.Location = new System.Drawing.Point(138, 33);
             this.imageBackgroundContainerPanel.Name = "imageBackgroundContainerPanel";
-            this.imageBackgroundContainerPanel.Size = new System.Drawing.Size(884, 527);
+            this.imageBackgroundContainerPanel.Size = new System.Drawing.Size(884, 497);
             this.imageBackgroundContainerPanel.TabIndex = 4;
             // 
             // checkeredPanel
@@ -174,16 +187,6 @@
             this.checkeredPanel.Name = "checkeredPanel";
             this.checkeredPanel.Size = new System.Drawing.Size(500, 300);
             this.checkeredPanel.TabIndex = 2;
-            // 
-            // boxSelectionPanel
-            // 
-            this.boxSelectionPanel.BackColor = System.Drawing.Color.Transparent;
-            this.boxSelectionPanel.Enabled = false;
-            this.boxSelectionPanel.Location = new System.Drawing.Point(0, 0);
-            this.boxSelectionPanel.Name = "boxSelectionPanel";
-            this.boxSelectionPanel.Size = new System.Drawing.Size(0, 0);
-            this.boxSelectionPanel.TabIndex = 3;
-            this.boxSelectionPanel.Visible = false;
             // 
             // leftPanel
             // 
@@ -197,7 +200,7 @@
             this.leftPanel.Location = new System.Drawing.Point(0, 33);
             this.leftPanel.MinimumSize = new System.Drawing.Size(138, 0);
             this.leftPanel.Name = "leftPanel";
-            this.leftPanel.Size = new System.Drawing.Size(138, 527);
+            this.leftPanel.Size = new System.Drawing.Size(138, 497);
             this.leftPanel.TabIndex = 5;
             // 
             // toolGroupBox
@@ -247,6 +250,29 @@
             this.eraseRadioButton.UseVisualStyleBackColor = true;
             this.eraseRadioButton.CheckedChanged += new System.EventHandler(this.toolSelectionRadioButton_CheckedChanged);
             // 
+            // bottomPanel
+            // 
+            this.bottomPanel.BackColor = System.Drawing.Color.White;
+            this.bottomPanel.Controls.Add(this.selectionAreaTextBox);
+            this.bottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.bottomPanel.Location = new System.Drawing.Point(0, 530);
+            this.bottomPanel.Name = "bottomPanel";
+            this.bottomPanel.Size = new System.Drawing.Size(1022, 30);
+            this.bottomPanel.TabIndex = 3;
+            // 
+            // selectionAreaTextBox
+            // 
+            this.selectionAreaTextBox.BackColor = System.Drawing.Color.White;
+            this.selectionAreaTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.selectionAreaTextBox.Location = new System.Drawing.Point(266, 3);
+            this.selectionAreaTextBox.Margin = new System.Windows.Forms.Padding(0);
+            this.selectionAreaTextBox.Name = "selectionAreaTextBox";
+            this.selectionAreaTextBox.ReadOnly = true;
+            this.selectionAreaTextBox.Size = new System.Drawing.Size(462, 19);
+            this.selectionAreaTextBox.TabIndex = 0;
+            this.selectionAreaTextBox.TabStop = false;
+            this.selectionAreaTextBox.Text = "Selection Area:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -254,6 +280,7 @@
             this.ClientSize = new System.Drawing.Size(1022, 560);
             this.Controls.Add(this.imageBackgroundContainerPanel);
             this.Controls.Add(this.leftPanel);
+            this.Controls.Add(this.bottomPanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
@@ -267,6 +294,8 @@
             this.leftPanel.PerformLayout();
             this.toolGroupBox.ResumeLayout(false);
             this.toolGroupBox.PerformLayout();
+            this.bottomPanel.ResumeLayout(false);
+            this.bottomPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -292,6 +321,8 @@
         private System.Windows.Forms.GroupBox toolGroupBox;
         private System.Windows.Forms.RadioButton boxRadioButton;
         private System.Windows.Forms.Panel boxSelectionPanel;
+        private System.Windows.Forms.Panel bottomPanel;
+        private System.Windows.Forms.TextBox selectionAreaTextBox;
     }
 }
 

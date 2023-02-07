@@ -18,11 +18,14 @@ namespace ImageEditor
     public partial class Form1 : Form
     {
         private Tool selectedTool;
+        public Rectangle selectionArea;
 
         public Bitmap panelImageBitmap;
         private Bitmap backgroundCheckerBitmap;
+
         public bool isMouseDown = false;
         public int prevMouseX, prevMouseY;
+
         public Color drawColor = Color.Black;
         private Color clearColor = new Color();
 
@@ -33,7 +36,8 @@ namespace ImageEditor
             
             imagePanel.BackColor = Color.Transparent;
             drawRadioButton.Checked = true;
-            selectedTool = new DrawTool(this);
+            selectedTool = new PencilTool(this);
+            selectionArea = new Rectangle();
 
             DoubleBuffered = true;
 
@@ -43,8 +47,8 @@ namespace ImageEditor
             null, imagePanel, new object[] { true });
 
             typeof(Panel).InvokeMember("DoubleBuffered",
-           BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
-           null, boxSelectionPanel, new object[] { true });
+            BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+            null, boxSelectionPanel, new object[] { true });
         }
 
         private bool LoadMyImageFile(OpenFileDialog openFileDialog)
@@ -219,14 +223,15 @@ namespace ImageEditor
             imagePanel.Update();
         }
 
-        public void UpdateBoxSelction(int x, int y, Point initalPoint)
+        public void UpdateBoxSelction()
         {
             boxSelectionPanel.BackColor = Color.FromArgb(100, 0, 0, 255);
             boxSelectionPanel.Visible = true;
-            Point topLeft = new Point(Math.Min(x, initalPoint.X), Math.Min(y, initalPoint.Y));
-            Point botRight = new Point(Math.Max(x, initalPoint.X), Math.Max(y, initalPoint.Y));
-            boxSelectionPanel.Size = new Size(botRight.X - topLeft.X, botRight.Y - topLeft.Y);
-            boxSelectionPanel.Location = topLeft;
+            
+            boxSelectionPanel.Size = selectionArea.Size;
+            boxSelectionPanel.Location = selectionArea.Location;
+
+            selectionAreaTextBox.Text = "Selection Area:(" + selectionArea.X + ", " + selectionArea.Y + ") (" + selectionArea.Right + ", " + selectionArea.Bottom + ")";
 
             boxSelectionPanel.Invalidate();
             boxSelectionPanel.Update();
@@ -235,7 +240,6 @@ namespace ImageEditor
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             isMouseDown = true;
-            boxSelectionPanel.Visible = false;
             selectedTool.OnMouseDown(sender, e);
         }
 
@@ -265,6 +269,11 @@ namespace ImageEditor
             {
                 drawColor = colorDialog.Color;
                 colorDisplayTextBox.BackColor = drawColor;
+
+                if (selectedTool.GetType().IsSubclassOf(typeof(DrawTool)))
+                {
+                    ((DrawTool)selectedTool).SetDrawColor(drawColor);
+                }
             }
         }
 
@@ -351,7 +360,7 @@ namespace ImageEditor
         {
             if (drawRadioButton.Checked)
             {
-                selectedTool = new DrawTool(this);
+                selectedTool = new PencilTool(this);
             }
             else if (eraseRadioButton.Checked)
             {

@@ -20,12 +20,17 @@ namespace ImageEditor.Tools
         public override void OnMouseDown(object sender, MouseEventArgs e)
         {
             boxInitalPoint = new Point(e.X, e.Y);
-            form1.UpdateBoxSelction(e.X, e.Y, boxInitalPoint);
         }
 
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
-            form1.UpdateBoxSelction(e.X, e.Y, boxInitalPoint);
+            Point topLeft = new Point(Math.Min(e.X, boxInitalPoint.X), Math.Min(e.Y, boxInitalPoint.Y));
+            Point botRight = new Point(Math.Max(e.X, boxInitalPoint.X), Math.Max(e.Y, boxInitalPoint.Y));
+
+            form1.selectionArea.Size = new Size(botRight.X - topLeft.X, botRight.Y - topLeft.Y);
+            form1.selectionArea.Location = topLeft;
+
+            form1.UpdateBoxSelction();
         }
     }
 }
