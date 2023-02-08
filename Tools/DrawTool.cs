@@ -51,7 +51,6 @@ namespace ImageEditor.Tools
             //Mouse not moving left or right
             if (startX == endX)
             {
-                Console.Write("e");
                 //Mouse moving up
                 if (startY < endY)
                 {

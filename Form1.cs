@@ -35,6 +35,7 @@ namespace ImageEditor
             NewImage();
             
             imagePanel.BackColor = Color.Transparent;
+            boxSelectionPanel.BackColor = Color.FromArgb(100, 0, 0, 255);
             drawRadioButton.Checked = true;
             selectedTool = new PencilTool(this);
             selectionArea = new Rectangle();
@@ -225,16 +226,21 @@ namespace ImageEditor
 
         public void UpdateBoxSelction()
         {
-            boxSelectionPanel.BackColor = Color.FromArgb(100, 0, 0, 255);
             boxSelectionPanel.Visible = true;
             
-            boxSelectionPanel.Size = selectionArea.Size;
-            boxSelectionPanel.Location = selectionArea.Location;
+            boxSelectionPanel.Size = new Size(selectionArea.Width, selectionArea.Height);
+            boxSelectionPanel.Location = new Point(selectionArea.X, selectionArea.Y);
 
             selectionAreaTextBox.Text = "Selection Area:(" + selectionArea.X + ", " + selectionArea.Y + ") (" + selectionArea.Right + ", " + selectionArea.Bottom + ")";
 
             boxSelectionPanel.Invalidate();
             boxSelectionPanel.Update();
+        }
+
+        public void HideBoxSelection()
+        {
+            boxSelectionPanel.Visible = false;
+            selectionAreaTextBox.Text = "";
         }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
