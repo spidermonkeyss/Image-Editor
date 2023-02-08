@@ -237,9 +237,11 @@ namespace ImageEditor
             boxSelectionPanel.Update();
         }
 
-        public void HideBoxSelection()
+        public void RemoveBoxSelection()
         {
             boxSelectionPanel.Visible = false;
+            selectionArea.Size = new Size();
+            selectionArea.Location = new Point();
             selectionAreaTextBox.Text = "";
         }
 
@@ -362,19 +364,29 @@ namespace ImageEditor
             NewImage();
         }
 
+        //This will sometimes get called twice because one button is turning off then calling and one button is turning on then calling
+        //Havent found any problems with this
         private void toolSelectionRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             if (drawRadioButton.Checked)
             {
                 selectedTool = new PencilTool(this);
+                Console.WriteLine("Using pencil tool");
             }
             else if (eraseRadioButton.Checked)
             {
                 selectedTool = new EraseTool(this);
+                Console.WriteLine("Using erase tool");
             }
             else if (boxRadioButton.Checked)
             {
                 selectedTool = new BoxSelectionTool(this);
+                Console.WriteLine("Using box selection tool");
+            }
+            else if (bucketRadioButton.Checked)
+            {
+                selectedTool = new BucketTool(this);
+                Console.WriteLine("Using bucket tool");
             }
         }
 

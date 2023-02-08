@@ -48,6 +48,7 @@
             this.eraseRadioButton = new System.Windows.Forms.RadioButton();
             this.bottomPanel = new System.Windows.Forms.Panel();
             this.selectionAreaTextBox = new System.Windows.Forms.TextBox();
+            this.bucketRadioButton = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.imagePanel.SuspendLayout();
             this.imageBackgroundContainerPanel.SuspendLayout();
@@ -205,12 +206,13 @@
             // 
             // toolGroupBox
             // 
+            this.toolGroupBox.Controls.Add(this.bucketRadioButton);
             this.toolGroupBox.Controls.Add(this.boxRadioButton);
             this.toolGroupBox.Controls.Add(this.drawRadioButton);
             this.toolGroupBox.Controls.Add(this.eraseRadioButton);
             this.toolGroupBox.Location = new System.Drawing.Point(12, 58);
             this.toolGroupBox.Name = "toolGroupBox";
-            this.toolGroupBox.Size = new System.Drawing.Size(116, 118);
+            this.toolGroupBox.Size = new System.Drawing.Size(116, 160);
             this.toolGroupBox.TabIndex = 7;
             this.toolGroupBox.TabStop = false;
             this.toolGroupBox.Text = "Tools";
@@ -271,7 +273,17 @@
             this.selectionAreaTextBox.Size = new System.Drawing.Size(462, 19);
             this.selectionAreaTextBox.TabIndex = 0;
             this.selectionAreaTextBox.TabStop = false;
-            this.selectionAreaTextBox.Text = "Selection Area:";
+            // 
+            // bucketRadioButton
+            // 
+            this.bucketRadioButton.AutoSize = true;
+            this.bucketRadioButton.Location = new System.Drawing.Point(12, 116);
+            this.bucketRadioButton.Name = "bucketRadioButton";
+            this.bucketRadioButton.Size = new System.Drawing.Size(84, 24);
+            this.bucketRadioButton.TabIndex = 8;
+            this.bucketRadioButton.Text = "Bucket";
+            this.bucketRadioButton.UseVisualStyleBackColor = true;
+            this.bucketRadioButton.CheckedChanged += new System.EventHandler(this.toolSelectionRadioButton_CheckedChanged);
             // 
             // Form1
             // 
@@ -323,6 +335,7 @@
         private System.Windows.Forms.Panel boxSelectionPanel;
         private System.Windows.Forms.Panel bottomPanel;
         private System.Windows.Forms.TextBox selectionAreaTextBox;
+        private System.Windows.Forms.RadioButton bucketRadioButton;
     }
 }
 

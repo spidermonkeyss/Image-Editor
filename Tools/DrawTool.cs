@@ -137,7 +137,13 @@ namespace ImageEditor.Tools
 
         protected void Fill(Point topLeft, Point botRight)
         {
-
+            for (int y = topLeft.Y; y < botRight.Y; y++)
+            {
+                for (int x = topLeft.X; x < botRight.X; x++)
+                {
+                    DrawPixel(x, y);
+                }
+            }
         }
     }
 }

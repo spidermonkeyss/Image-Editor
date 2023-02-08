@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace ImageEditor.Tools
 {
@@ -16,7 +17,8 @@ namespace ImageEditor.Tools
 
         public override void OnMouseDown(object sender, MouseEventArgs e)
         {
-            //Fill();
+            Fill(form1.selectionArea.Location, new Point(form1.selectionArea.Right, form1.selectionArea.Bottom));
+            form1.RemoveBoxSelection();
             form1.UpdatePanelImage();
         }
     }
