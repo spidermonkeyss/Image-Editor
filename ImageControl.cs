@@ -12,28 +12,19 @@ namespace ImageEditor
 {
     public class ImageControl : Control
     {
-        //need four panel maybe
-        //or do it all on one
-        //i would like that better
-
-        //checkered background
-        //the image as a bitmap
-        //the selection area
-
-        //Put all these in imageBackgroundContainePanel
-        //maybe make that the ImagePanel?
-        //and the other three arent panels they just combine into the main panel
-        
         public Bitmap imageBitmap;
+        public Rectangle selectionArea = new Rectangle();
+        public bool IsMouseDown { get; set; } = false;
+        public int PrevMouseX { get; set; }
+        public int PrevMouseY { get; set; }
+        
+        private Form1 form1;
+
         private Bitmap backgroundCheckerBitmap;
         private Panel backgroundCheckerPanel = new Panel();
         private Panel imagePanel = new Panel();
+        private Panel selectionBoxPanel = new Panel();
 
-        Form1 form1;
-
-        public bool isMouseDown = false;
-        public int prevMouseX, prevMouseY;
-      
         public ImageControl(Form1 form)
         {
             //This prevents flickering in the panel with the image
@@ -44,6 +35,10 @@ namespace ImageEditor
             typeof(Panel).InvokeMember("DoubleBuffered",
             BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
             null, backgroundCheckerPanel, new object[] { true });
+
+            typeof(Panel).InvokeMember("DoubleBuffered",
+            BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+            null, selectionBoxPanel, new object[] { true });
 
             form1 = form;
 
@@ -82,8 +77,19 @@ namespace ImageEditor
             imagePanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MouseUpEvent);
             imagePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MouseMoveEvent);
 
-            backgroundCheckerPanel.Controls.Add(imagePanel);
+            selectionBoxPanel.AutoSize = false;
+            selectionBoxPanel.AutoScroll = false;
+            selectionBoxPanel.AutoSizeMode = AutoSizeMode.GrowOnly;
+            selectionBoxPanel.Location = selectionArea.Location;
+            selectionBoxPanel.Name = "Selection Box Panel";
+            selectionBoxPanel.Size = selectionArea.Size;
+            selectionBoxPanel.TabIndex = 0;
+            selectionBoxPanel.TabStop = false;
+            selectionBoxPanel.BackColor = Color.FromArgb(100, 0, 0, 255);
+
             this.Controls.Add(backgroundCheckerPanel);
+            backgroundCheckerPanel.Controls.Add(imagePanel);
+            imagePanel.Controls.Add(selectionBoxPanel);
 
             backgroundCheckerPanel.ResumeLayout(false);
             backgroundCheckerPanel.PerformLayout();
@@ -140,7 +146,7 @@ namespace ImageEditor
             bool isWidth = int.TryParse(Encoding.UTF8.GetString(imageWidthBytes.ToArray()), out imageWidth);
             bool isHeight = int.TryParse(Encoding.UTF8.GetString(imageHeightBytes.ToArray()), out imageHeight);
 
-            if ((!isWidth || !isHeight) || imageBytes.Count % 4 != 0 || (imageWidth * imageHeight) != imageBytes.Count / 4)
+            if (!isWidth || !isHeight || imageBytes.Count % 4 != 0 || (imageWidth * imageHeight) != imageBytes.Count / 4)
             {
                 Console.WriteLine("Open file failed. Could not read properly");
                 fileStream.Close();
@@ -190,7 +196,7 @@ namespace ImageEditor
                     if (x < imageBitmap.Width && y < imageBitmap.Height)
                         tempMap.SetPixel(x, y, imageBitmap.GetPixel(x, y));
                     else
-                        tempMap.SetPixel(x, y, form1.clearColor);
+                        tempMap.SetPixel(x, y, new Color());
                 }
             }
 
@@ -210,7 +216,7 @@ namespace ImageEditor
             {
                 for (int x = 0; x < imageBitmap.Width; x++)
                 {
-                    imageBitmap.SetPixel(x, y, form1.clearColor);
+                    imageBitmap.SetPixel(x, y, new Color());
                 }
             }
 
@@ -281,33 +287,38 @@ namespace ImageEditor
 
         public void UpdateBoxSelction()
         {
-            form1.selectionAreaTextBox.Text = "Selection Area:(" + form1.selectionArea.X + ", " + form1.selectionArea.Y + ") (" + form1.selectionArea.Right + ", " + form1.selectionArea.Bottom + ")";
+            form1.selectionAreaTextBox.Text = "Selection Area:(" + selectionArea.X + ", " + selectionArea.Y + ") (" + selectionArea.Right + ", " + selectionArea.Bottom + ")";
+
+            selectionBoxPanel.Location = selectionArea.Location;
+            selectionBoxPanel.Size = selectionArea.Size;
+
+            selectionBoxPanel.Invalidate();
+            selectionBoxPanel.Update();
         }
 
         public void RemoveBoxSelection()
         {
-            form1.selectionArea.Size = new Size();
-            form1.selectionArea.Location = new Point();
+            selectionArea.Size = new Size();
+            selectionArea.Location = new Point();
             form1.selectionAreaTextBox.Text = "";
         }
 
         /*----Events----*/
         private void MouseDownEvent(object sender, MouseEventArgs e)
         {
-            isMouseDown = true;
-            Console.WriteLine("mouse down");
+            IsMouseDown = true;
             form1.selectedTool.OnMouseDown(sender, e);
         }
 
         private void MouseUpEvent(object sender, MouseEventArgs e)
         {
-            isMouseDown = false;
+            IsMouseDown = false;
             form1.selectedTool.OnMouseUp(sender, e);
         }
 
         private void MouseMoveEvent(object sender, MouseEventArgs e)
         {
-            if (isMouseDown)
+            if (IsMouseDown)
             {
                 form1.selectedTool.OnMouseMove(sender, e);
             }

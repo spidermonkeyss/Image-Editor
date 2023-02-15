@@ -22,7 +22,7 @@ namespace ImageEditor.Tools
 
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
-            DrawLineBetweenPoints(form1.imageControl.prevMouseX, form1.imageControl.prevMouseY, e.X, e.Y);
+            DrawLineBetweenPoints(form1.imageControl.PrevMouseX, form1.imageControl.PrevMouseY, e.X, e.Y);
         }
     }
 }

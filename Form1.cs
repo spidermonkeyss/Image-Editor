@@ -18,25 +18,19 @@ namespace ImageEditor
     public partial class Form1 : Form
     {
         public Tool selectedTool;
-        public Rectangle selectionArea;
-
         public Color drawColor = Color.Black;
-        public Color clearColor = new Color();
-
         public ImageControl imageControl;
         
         public Form1()
         {
             InitializeComponent();
-            clearColor = Color.Transparent;
 
             imageControl = new ImageControl(this);
             workspacePanel.Controls.Add(imageControl);
             imageControl.NewImage();
 
-            drawRadioButton.Checked = true;
+            pencilRadioButton.Checked = true;
             selectedTool = new PencilTool(this);
-            selectionArea = new Rectangle();
 
             DoubleBuffered = true;
         }
@@ -139,7 +133,7 @@ namespace ImageEditor
         //Havent found any problems with this
         private void toolSelectionRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (drawRadioButton.Checked)
+            if (pencilRadioButton.Checked)
             {
                 selectedTool = new PencilTool(this);
                 Console.WriteLine("Using pencil tool");

@@ -41,7 +41,7 @@
             this.toolGroupBox = new System.Windows.Forms.GroupBox();
             this.bucketRadioButton = new System.Windows.Forms.RadioButton();
             this.boxRadioButton = new System.Windows.Forms.RadioButton();
-            this.drawRadioButton = new System.Windows.Forms.RadioButton();
+            this.pencilRadioButton = new System.Windows.Forms.RadioButton();
             this.eraseRadioButton = new System.Windows.Forms.RadioButton();
             this.bottomPanel = new System.Windows.Forms.Panel();
             this.selectionAreaTextBox = new System.Windows.Forms.TextBox();
@@ -154,7 +154,7 @@
             // 
             this.toolGroupBox.Controls.Add(this.bucketRadioButton);
             this.toolGroupBox.Controls.Add(this.boxRadioButton);
-            this.toolGroupBox.Controls.Add(this.drawRadioButton);
+            this.toolGroupBox.Controls.Add(this.pencilRadioButton);
             this.toolGroupBox.Controls.Add(this.eraseRadioButton);
             this.toolGroupBox.Location = new System.Drawing.Point(12, 58);
             this.toolGroupBox.Name = "toolGroupBox";
@@ -185,18 +185,18 @@
             this.boxRadioButton.Text = "Box";
             this.boxRadioButton.UseVisualStyleBackColor = true;
             // 
-            // drawRadioButton
+            // pencilRadioButton
             // 
-            this.drawRadioButton.AutoSize = true;
-            this.drawRadioButton.Checked = true;
-            this.drawRadioButton.Location = new System.Drawing.Point(12, 25);
-            this.drawRadioButton.Name = "drawRadioButton";
-            this.drawRadioButton.Size = new System.Drawing.Size(71, 24);
-            this.drawRadioButton.TabIndex = 5;
-            this.drawRadioButton.TabStop = true;
-            this.drawRadioButton.Text = "Draw";
-            this.drawRadioButton.UseVisualStyleBackColor = true;
-            this.drawRadioButton.CheckedChanged += new System.EventHandler(this.toolSelectionRadioButton_CheckedChanged);
+            this.pencilRadioButton.AutoSize = true;
+            this.pencilRadioButton.Checked = true;
+            this.pencilRadioButton.Location = new System.Drawing.Point(12, 25);
+            this.pencilRadioButton.Name = "pencilRadioButton";
+            this.pencilRadioButton.Size = new System.Drawing.Size(76, 24);
+            this.pencilRadioButton.TabIndex = 5;
+            this.pencilRadioButton.TabStop = true;
+            this.pencilRadioButton.Text = "Pencil";
+            this.pencilRadioButton.UseVisualStyleBackColor = true;
+            this.pencilRadioButton.CheckedChanged += new System.EventHandler(this.toolSelectionRadioButton_CheckedChanged);
             // 
             // eraseRadioButton
             // 
@@ -279,7 +279,7 @@
         private System.Windows.Forms.ToolStripMenuItem imageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resizeToolStripMenuItem;
         private System.Windows.Forms.Panel leftPanel;
-        private System.Windows.Forms.RadioButton drawRadioButton;
+        private System.Windows.Forms.RadioButton pencilRadioButton;
         private System.Windows.Forms.RadioButton eraseRadioButton;
         private System.Windows.Forms.GroupBox toolGroupBox;
         private System.Windows.Forms.RadioButton boxRadioButton;

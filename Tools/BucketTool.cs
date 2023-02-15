@@ -17,7 +17,7 @@ namespace ImageEditor.Tools
 
         public override void OnMouseDown(object sender, MouseEventArgs e)
         {
-            Fill(form1.selectionArea.Location, new Point(form1.selectionArea.Right, form1.selectionArea.Bottom));
+            Fill(form1.imageControl.selectionArea.Location, new Point(form1.imageControl.selectionArea.Right, form1.imageControl.selectionArea.Bottom));
             form1.imageControl.RemoveBoxSelection();
             form1.imageControl.UpdatePanelImage();
         }
