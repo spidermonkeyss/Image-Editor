@@ -24,23 +24,23 @@ namespace ImageEditor.Tools
 
         protected void DrawPixel(int x, int y)
         {
-            if (x < 0 || x >= form1.panelImageBitmap.Width)
+            if (x < 0 || x >= form1.imageControl.imageBitmap.Width)
             {
                 Console.WriteLine("x out of panel");
-                form1.isMouseDown = false;
+                form1.imageControl.isMouseDown = false;
                 return;
             }
-            if (y < 0 || y >= form1.panelImageBitmap.Height)
+            if (y < 0 || y >= form1.imageControl.imageBitmap.Height)
             {
                 Console.WriteLine("y out of panel");
-                form1.isMouseDown = false;
+                form1.imageControl.isMouseDown = false;
                 return;
             }
 
-            form1.panelImageBitmap.SetPixel(x, y, drawColor);
+            form1.imageControl.imageBitmap.SetPixel(x, y, drawColor);
 
-            form1.prevMouseX = x;
-            form1.prevMouseY = y;
+            form1.imageControl.prevMouseX = x;
+            form1.imageControl.prevMouseY = y;
         }
 
         protected void DrawLineBetweenPoints(int startX, int startY, int endX, int endY)
@@ -132,7 +132,7 @@ namespace ImageEditor.Tools
                 }
             }
 
-            form1.UpdatePanelImage();
+            form1.imageControl.UpdatePanelImage();
         }
 
         protected void Fill(Point topLeft, Point botRight)

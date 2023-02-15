@@ -20,7 +20,7 @@ namespace ImageEditor.Tools
         public override void OnMouseDown(object sender, MouseEventArgs e)
         {
             boxInitalPoint = new Point(e.X, e.Y);
-            form1.RemoveBoxSelection();
+            form1.imageControl.RemoveBoxSelection();
         }
 
         public override void OnMouseMove(object sender, MouseEventArgs e)
@@ -33,11 +33,11 @@ namespace ImageEditor.Tools
 
             if (form1.selectionArea.Size.IsEmpty)
             {
-                form1.RemoveBoxSelection();
+                form1.imageControl.RemoveBoxSelection();
             }
             else
             {
-                form1.UpdateBoxSelction();
+                form1.imageControl.UpdateBoxSelction();
             }
         }
     }

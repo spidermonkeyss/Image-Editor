@@ -35,24 +35,18 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.imagePanel = new System.Windows.Forms.Panel();
-            this.boxSelectionPanel = new System.Windows.Forms.Panel();
             this.pickColorBtn = new System.Windows.Forms.Button();
             this.colorDisplayTextBox = new System.Windows.Forms.TextBox();
-            this.imageBackgroundContainerPanel = new System.Windows.Forms.Panel();
-            this.checkeredPanel = new System.Windows.Forms.Panel();
             this.leftPanel = new System.Windows.Forms.Panel();
             this.toolGroupBox = new System.Windows.Forms.GroupBox();
+            this.bucketRadioButton = new System.Windows.Forms.RadioButton();
             this.boxRadioButton = new System.Windows.Forms.RadioButton();
             this.drawRadioButton = new System.Windows.Forms.RadioButton();
             this.eraseRadioButton = new System.Windows.Forms.RadioButton();
             this.bottomPanel = new System.Windows.Forms.Panel();
             this.selectionAreaTextBox = new System.Windows.Forms.TextBox();
-            this.bucketRadioButton = new System.Windows.Forms.RadioButton();
+            this.workspacePanel = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
-            this.imagePanel.SuspendLayout();
-            this.imageBackgroundContainerPanel.SuspendLayout();
-            this.checkeredPanel.SuspendLayout();
             this.leftPanel.SuspendLayout();
             this.toolGroupBox.SuspendLayout();
             this.bottomPanel.SuspendLayout();
@@ -117,30 +111,6 @@
             this.resizeToolStripMenuItem.Text = "Resize";
             this.resizeToolStripMenuItem.Click += new System.EventHandler(this.resizeToolStripMenuItem_Click);
             // 
-            // imagePanel
-            // 
-            this.imagePanel.AutoScroll = true;
-            this.imagePanel.BackColor = System.Drawing.Color.White;
-            this.imagePanel.Controls.Add(this.boxSelectionPanel);
-            this.imagePanel.Location = new System.Drawing.Point(0, 0);
-            this.imagePanel.Margin = new System.Windows.Forms.Padding(0);
-            this.imagePanel.Name = "imagePanel";
-            this.imagePanel.Size = new System.Drawing.Size(500, 300);
-            this.imagePanel.TabIndex = 1;
-            this.imagePanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
-            this.imagePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
-            this.imagePanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
-            // 
-            // boxSelectionPanel
-            // 
-            this.boxSelectionPanel.BackColor = System.Drawing.Color.Transparent;
-            this.boxSelectionPanel.Enabled = false;
-            this.boxSelectionPanel.Location = new System.Drawing.Point(0, 0);
-            this.boxSelectionPanel.Name = "boxSelectionPanel";
-            this.boxSelectionPanel.Size = new System.Drawing.Size(0, 0);
-            this.boxSelectionPanel.TabIndex = 3;
-            this.boxSelectionPanel.Visible = false;
-            // 
             // pickColorBtn
             // 
             this.pickColorBtn.Location = new System.Drawing.Point(3, 3);
@@ -164,30 +134,6 @@
             this.colorDisplayTextBox.Size = new System.Drawing.Size(26, 26);
             this.colorDisplayTextBox.TabIndex = 3;
             this.colorDisplayTextBox.TabStop = false;
-            // 
-            // imageBackgroundContainerPanel
-            // 
-            this.imageBackgroundContainerPanel.AutoScroll = true;
-            this.imageBackgroundContainerPanel.AutoScrollMargin = new System.Drawing.Size(10, 10);
-            this.imageBackgroundContainerPanel.AutoSize = true;
-            this.imageBackgroundContainerPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.imageBackgroundContainerPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.imageBackgroundContainerPanel.Controls.Add(this.checkeredPanel);
-            this.imageBackgroundContainerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageBackgroundContainerPanel.Location = new System.Drawing.Point(138, 33);
-            this.imageBackgroundContainerPanel.Name = "imageBackgroundContainerPanel";
-            this.imageBackgroundContainerPanel.Size = new System.Drawing.Size(884, 497);
-            this.imageBackgroundContainerPanel.TabIndex = 4;
-            // 
-            // checkeredPanel
-            // 
-            this.checkeredPanel.BackColor = System.Drawing.Color.Black;
-            this.checkeredPanel.Controls.Add(this.imagePanel);
-            this.checkeredPanel.Location = new System.Drawing.Point(0, 0);
-            this.checkeredPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.checkeredPanel.Name = "checkeredPanel";
-            this.checkeredPanel.Size = new System.Drawing.Size(500, 300);
-            this.checkeredPanel.TabIndex = 2;
             // 
             // leftPanel
             // 
@@ -216,6 +162,17 @@
             this.toolGroupBox.TabIndex = 7;
             this.toolGroupBox.TabStop = false;
             this.toolGroupBox.Text = "Tools";
+            // 
+            // bucketRadioButton
+            // 
+            this.bucketRadioButton.AutoSize = true;
+            this.bucketRadioButton.Location = new System.Drawing.Point(12, 116);
+            this.bucketRadioButton.Name = "bucketRadioButton";
+            this.bucketRadioButton.Size = new System.Drawing.Size(84, 24);
+            this.bucketRadioButton.TabIndex = 8;
+            this.bucketRadioButton.Text = "Bucket";
+            this.bucketRadioButton.UseVisualStyleBackColor = true;
+            this.bucketRadioButton.CheckedChanged += new System.EventHandler(this.toolSelectionRadioButton_CheckedChanged);
             // 
             // boxRadioButton
             // 
@@ -274,23 +231,23 @@
             this.selectionAreaTextBox.TabIndex = 0;
             this.selectionAreaTextBox.TabStop = false;
             // 
-            // bucketRadioButton
+            // workspacePanel
             // 
-            this.bucketRadioButton.AutoSize = true;
-            this.bucketRadioButton.Location = new System.Drawing.Point(12, 116);
-            this.bucketRadioButton.Name = "bucketRadioButton";
-            this.bucketRadioButton.Size = new System.Drawing.Size(84, 24);
-            this.bucketRadioButton.TabIndex = 8;
-            this.bucketRadioButton.Text = "Bucket";
-            this.bucketRadioButton.UseVisualStyleBackColor = true;
-            this.bucketRadioButton.CheckedChanged += new System.EventHandler(this.toolSelectionRadioButton_CheckedChanged);
+            this.workspacePanel.AutoScroll = true;
+            this.workspacePanel.AutoSize = true;
+            this.workspacePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.workspacePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.workspacePanel.Location = new System.Drawing.Point(138, 33);
+            this.workspacePanel.Name = "workspacePanel";
+            this.workspacePanel.Size = new System.Drawing.Size(884, 497);
+            this.workspacePanel.TabIndex = 6;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1022, 560);
-            this.Controls.Add(this.imageBackgroundContainerPanel);
+            this.Controls.Add(this.workspacePanel);
             this.Controls.Add(this.leftPanel);
             this.Controls.Add(this.bottomPanel);
             this.Controls.Add(this.menuStrip1);
@@ -299,9 +256,6 @@
             this.Text = "Image Editor";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.imagePanel.ResumeLayout(false);
-            this.imageBackgroundContainerPanel.ResumeLayout(false);
-            this.checkeredPanel.ResumeLayout(false);
             this.leftPanel.ResumeLayout(false);
             this.leftPanel.PerformLayout();
             this.toolGroupBox.ResumeLayout(false);
@@ -320,22 +274,19 @@
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.Panel imagePanel;
         private System.Windows.Forms.Button pickColorBtn;
         private System.Windows.Forms.TextBox colorDisplayTextBox;
         private System.Windows.Forms.ToolStripMenuItem imageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resizeToolStripMenuItem;
-        private System.Windows.Forms.Panel imageBackgroundContainerPanel;
         private System.Windows.Forms.Panel leftPanel;
-        private System.Windows.Forms.Panel checkeredPanel;
         private System.Windows.Forms.RadioButton drawRadioButton;
         private System.Windows.Forms.RadioButton eraseRadioButton;
         private System.Windows.Forms.GroupBox toolGroupBox;
         private System.Windows.Forms.RadioButton boxRadioButton;
-        private System.Windows.Forms.Panel boxSelectionPanel;
         private System.Windows.Forms.Panel bottomPanel;
-        private System.Windows.Forms.TextBox selectionAreaTextBox;
         private System.Windows.Forms.RadioButton bucketRadioButton;
+        public System.Windows.Forms.TextBox selectionAreaTextBox;
+        private System.Windows.Forms.Panel workspacePanel;
     }
 }
 

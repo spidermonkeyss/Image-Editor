@@ -17,12 +17,12 @@ namespace ImageEditor.Tools
         public override void OnMouseDown(object sender, MouseEventArgs e)
         {
             DrawPixel(e.X, e.Y);
-            form1.UpdatePanelImage();
+            form1.imageControl.UpdatePanelImage();
         }
 
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
-            DrawLineBetweenPoints(form1.prevMouseX, form1.prevMouseY, e.X, e.Y);
+            DrawLineBetweenPoints(form1.imageControl.prevMouseX, form1.imageControl.prevMouseY, e.X, e.Y);
         }
     }
 }

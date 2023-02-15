@@ -17,252 +17,28 @@ namespace ImageEditor
 {
     public partial class Form1 : Form
     {
-        private Tool selectedTool;
+        public Tool selectedTool;
         public Rectangle selectionArea;
 
-        public Bitmap panelImageBitmap;
-        private Bitmap backgroundCheckerBitmap;
-
-        public bool isMouseDown = false;
-        public int prevMouseX, prevMouseY;
-
         public Color drawColor = Color.Black;
-        private Color clearColor = new Color();
+        public Color clearColor = new Color();
 
+        public ImageControl imageControl;
+        
         public Form1()
         {
             InitializeComponent();
-            NewImage();
-            
-            imagePanel.BackColor = Color.Transparent;
-            boxSelectionPanel.BackColor = Color.FromArgb(100, 0, 0, 255);
+            clearColor = Color.Transparent;
+
+            imageControl = new ImageControl(this);
+            workspacePanel.Controls.Add(imageControl);
+            imageControl.NewImage();
+
             drawRadioButton.Checked = true;
             selectedTool = new PencilTool(this);
             selectionArea = new Rectangle();
 
             DoubleBuffered = true;
-
-            //This prevents flickering in the panel with the image
-            typeof(Panel).InvokeMember("DoubleBuffered",
-            BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
-            null, imagePanel, new object[] { true });
-
-            typeof(Panel).InvokeMember("DoubleBuffered",
-            BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
-            null, boxSelectionPanel, new object[] { true });
-        }
-
-        private bool LoadMyImageFile(OpenFileDialog openFileDialog)
-        {
-            //Read the contents of the file into a stream
-            Stream fileStream = openFileDialog.OpenFile();
-
-            fileStream.Position = 0;
-            List<byte> imageWidthBytes = new List<byte>();
-            List<byte> imageHeightBytes = new List<byte>();
-            List<byte> imageBytes = new List<byte>();
-            int currentList = 0;
-            while (fileStream.Position < fileStream.Length)
-            {
-                int intByte = fileStream.ReadByte();
-                if (intByte == -1)
-                {
-                    break;
-                }
-                byte b = (byte)intByte;
-                //32 is space
-                if (b == 32 && currentList < 2)
-                {
-                    currentList++;
-                }
-                else
-                {
-                    switch (currentList)
-                    {
-                        case 0:
-                            imageWidthBytes.Add(b);
-                            break;
-                        case 1:
-                            imageHeightBytes.Add(b);
-                            break;
-                        case 2:
-                            imageBytes.Add(b);
-                            break;
-                    }
-                }
-            }
-
-            int imageWidth;
-            int imageHeight;
-            bool isWidth = int.TryParse(Encoding.UTF8.GetString(imageWidthBytes.ToArray()), out imageWidth);
-            bool isHeight = int.TryParse(Encoding.UTF8.GetString(imageHeightBytes.ToArray()), out imageHeight);
-
-            if ((!isWidth || !isHeight) || imageBytes.Count % 4 != 0 || (imageWidth * imageHeight) != imageBytes.Count / 4)
-            {
-                Console.WriteLine("Open file failed. Could not read properly");
-                fileStream.Close();
-                return false;
-            }
-            panelImageBitmap = new Bitmap(imageWidth, imageHeight);
-            imagePanel.Size = new Size(imageWidth, imageHeight);
-
-            int i = 0;
-            for (int y = 0; y < imageHeight; y++)
-            {
-                for (int x = 0; x < imageWidth; x++)
-                {
-
-                    byte R = imageBytes[i + 0];
-                    byte G = imageBytes[i + 1];
-                    byte B = imageBytes[i + 2];
-                    byte A = imageBytes[i + 3];
-                    panelImageBitmap.SetPixel(x, y, Color.FromArgb(A, R, G, B));
-                    i += 4;
-                }
-            }
-            fileStream.Close();
-            return true;
-        }
-
-        public void ResizeImage(int width, int height)
-        {
-            Bitmap tempMap = new Bitmap(width, height);
-
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    if (x < panelImageBitmap.Width && y < panelImageBitmap.Height)
-                        tempMap.SetPixel(x, y, panelImageBitmap.GetPixel(x,y));
-                    else
-                        tempMap.SetPixel(x, y, clearColor);
-                }
-            }
-
-            imagePanel.Size = new Size(width, height);
-            panelImageBitmap = tempMap;
-
-            UpdateTransparentBackground();
-            UpdatePanelImage();
-        }
-
-        private void NewImage()
-        {
-            panelImageBitmap = new Bitmap(500, 300);
-            imagePanel.Size = new Size(500, 300);
-
-            for (int y = 0; y < imagePanel.Height; y++)
-            {
-                for (int x = 0; x < imagePanel.Width; x++)
-                {
-                    panelImageBitmap.SetPixel(x, y, clearColor);
-                }
-            }
-            UpdateTransparentBackground();
-            UpdatePanelImage();
-        }
-
-        private void UpdateTransparentBackground()
-        {
-            checkeredPanel.Size = imagePanel.Size;
-            checkeredPanel.Location = imagePanel.Location;
-
-            backgroundCheckerBitmap = new Bitmap(panelImageBitmap.Width, panelImageBitmap.Height);
-
-            const int cellSize = 50;
-            int currentCellWidth = 0;
-            int currentCellHeight = 0;
-            bool isWhiteCell = true;
-            bool isFirstCellOfRowWhite = isWhiteCell;
-            for(int y = 0; y < backgroundCheckerBitmap.Height; y++)
-            {
-                for (int x = 0; x < backgroundCheckerBitmap.Width; x++)
-                {
-                    if (isWhiteCell)
-                    {
-                        backgroundCheckerBitmap.SetPixel(x, y, Color.White);
-                    }
-                    else
-                    {
-                        backgroundCheckerBitmap.SetPixel(x, y, Color.LightGray);
-                    }
-
-                    currentCellWidth++;
-                    if (currentCellWidth == cellSize)
-                    {
-                        currentCellWidth = 0;
-                        isWhiteCell = !isWhiteCell;
-                    }
-                }
-                
-                currentCellWidth = 0;
-
-                //Make sure cell is same color till new cell
-                isWhiteCell = isFirstCellOfRowWhite;
-
-                currentCellHeight++;
-                if (currentCellHeight == cellSize)
-                {
-                    //Make sure first cell of row is oppsite of cell above
-                    isWhiteCell = !isFirstCellOfRowWhite;
-                    isFirstCellOfRowWhite = isWhiteCell;
-                    currentCellHeight = 0;
-                }
-            }
-
-            checkeredPanel.BackgroundImage = backgroundCheckerBitmap;
-
-            imagePanel.Invalidate();
-            imagePanel.Update();
-        }
-
-        public void UpdatePanelImage()
-        {
-            imagePanel.BackgroundImage = panelImageBitmap;
-
-            imagePanel.Invalidate();
-            imagePanel.Update();
-        }
-
-        public void UpdateBoxSelction()
-        {
-            boxSelectionPanel.Visible = true;
-            
-            boxSelectionPanel.Size = new Size(selectionArea.Width, selectionArea.Height);
-            boxSelectionPanel.Location = new Point(selectionArea.X, selectionArea.Y);
-
-            selectionAreaTextBox.Text = "Selection Area:(" + selectionArea.X + ", " + selectionArea.Y + ") (" + selectionArea.Right + ", " + selectionArea.Bottom + ")";
-
-            boxSelectionPanel.Invalidate();
-            boxSelectionPanel.Update();
-        }
-
-        public void RemoveBoxSelection()
-        {
-            boxSelectionPanel.Visible = false;
-            selectionArea.Size = new Size();
-            selectionArea.Location = new Point();
-            selectionAreaTextBox.Text = "";
-        }
-
-        private void panel1_MouseDown(object sender, MouseEventArgs e)
-        {
-            isMouseDown = true;
-            selectedTool.OnMouseDown(sender, e);
-        }
-
-        private void panel1_MouseUp(object sender, MouseEventArgs e)
-        {
-            isMouseDown = false;
-            selectedTool.OnMouseUp(sender, e);
-        }
-
-        private void panel1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (isMouseDown)
-            {
-                selectedTool.OnMouseMove(sender, e);
-            }
         }
 
         private void pickColorBtn_Click(object sender, EventArgs e)
@@ -302,18 +78,13 @@ namespace ImageEditor
                 //Load known file types
                 if (extension == ".png")
                 {
-                    panelImageBitmap = new Bitmap(filePath);
-                    imagePanel.Size = new Size(panelImageBitmap.Width, panelImageBitmap.Height);
-                    Console.WriteLine("PNG Loaded");
+                    imageControl.LoadKnownFileType(filePath);
                 }
                 //Load my own file type
                 else
                 {
-                    LoadMyImageFile(openFileDialog);
+                    imageControl.LoadMyImageFile(openFileDialog);
                 }
-
-                UpdateTransparentBackground();
-                UpdatePanelImage();
             }
         }
 
@@ -332,19 +103,19 @@ namespace ImageEditor
                 {
                     StreamReader reader = new StreamReader(myStream);
                     // Code to write the stream goes here.
-                    string imageWidth = panelImageBitmap.Width.ToString();
-                    string imageHeight = panelImageBitmap.Height.ToString();
+                    string imageWidth = imageControl.imageBitmap.Width.ToString();
+                    string imageHeight = imageControl.imageBitmap.Height.ToString();
                     
-                    byte[] imageBytes = new byte[panelImageBitmap.Width * panelImageBitmap.Height * 4];
+                    byte[] imageBytes = new byte[imageControl.imageBitmap.Width * imageControl.imageBitmap.Height * 4];
                     int i = 0;
-                    for (int y = 0; y < panelImageBitmap.Height; y++)
+                    for (int y = 0; y < imageControl.imageBitmap.Height; y++)
                     {
-                        for (int x = 0; x < panelImageBitmap.Width; x++)
+                        for (int x = 0; x < imageControl.imageBitmap.Width; x++)
                         {
-                            imageBytes[i + 0] = panelImageBitmap.GetPixel(x, y).R;
-                            imageBytes[i + 1] = panelImageBitmap.GetPixel(x, y).G;
-                            imageBytes[i + 2] = panelImageBitmap.GetPixel(x, y).B;
-                            imageBytes[i + 3] = panelImageBitmap.GetPixel(x, y).A;
+                            imageBytes[i + 0] = imageControl.imageBitmap.GetPixel(x, y).R;
+                            imageBytes[i + 1] = imageControl.imageBitmap.GetPixel(x, y).G;
+                            imageBytes[i + 2] = imageControl.imageBitmap.GetPixel(x, y).B;
+                            imageBytes[i + 3] = imageControl.imageBitmap.GetPixel(x, y).A;
                             i += 4;
                         }
                     }
@@ -361,7 +132,7 @@ namespace ImageEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NewImage();
+            imageControl.NewImage();
         }
 
         //This will sometimes get called twice because one button is turning off then calling and one button is turning on then calling
@@ -392,7 +163,7 @@ namespace ImageEditor
 
         private void resizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ResizeForm form2 = new ResizeForm(this, panelImageBitmap.Width, panelImageBitmap.Height);
+            ResizeForm form2 = new ResizeForm(this, imageControl.imageBitmap.Width, imageControl.imageBitmap.Height);
             form2.Show();
         }
     }

@@ -35,7 +35,7 @@ namespace ImageEditor
 
             if (isWidthNum && isHeightNum)
             {
-                mainForm.ResizeImage(widthValue, heightValue);
+                mainForm.imageControl.ResizeImage(widthValue, heightValue);
                 this.Close();
             }
             else
