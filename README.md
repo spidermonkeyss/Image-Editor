@@ -6,7 +6,7 @@ Saves the file as .myimage.
 Can open .myimage and .png files.
 
 
-BUGS
+<h2>BUGS<h1>
 <ul>
 <li>Mouse pointer doesnt line up with pixels after scaling</li>
 <li>Switching tools calls the tool changed function twice, doesn't cause any problems yet</li>
