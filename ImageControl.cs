@@ -21,18 +21,20 @@ namespace ImageEditor
         private Form1 form1;
 
         private Bitmap backgroundCheckerBitmap;
-        private Panel backgroundCheckerPanel = new Panel();
-        private Panel imagePanel = new Panel();
+        private PictureBox backgroundCheckerPanel = new PictureBox();
+        private PictureBox imagePanel = new PictureBox();
         private Panel selectionBoxPanel = new Panel();
+
+        private float scale = 1;
 
         public ImageControl(Form1 form)
         {
             //This prevents flickering in the panel with the image
-            typeof(Panel).InvokeMember("DoubleBuffered",
+            typeof(PictureBox).InvokeMember("DoubleBuffered",
             BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
             null, imagePanel, new object[] { true });
 
-            typeof(Panel).InvokeMember("DoubleBuffered",
+            typeof(PictureBox).InvokeMember("DoubleBuffered",
             BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
             null, backgroundCheckerPanel, new object[] { true });
 
@@ -56,8 +58,7 @@ namespace ImageEditor
             this.Enabled = true;
 
             backgroundCheckerPanel.AutoSize = false;
-            backgroundCheckerPanel.AutoScroll = false;
-            backgroundCheckerPanel.AutoSizeMode = AutoSizeMode.GrowOnly;
+            backgroundCheckerPanel.SizeMode = PictureBoxSizeMode.Zoom;
             backgroundCheckerPanel.Location = this.Location;
             backgroundCheckerPanel.Name = "Background Checker Panel";
             backgroundCheckerPanel.Size = this.Size;
@@ -65,8 +66,7 @@ namespace ImageEditor
             backgroundCheckerPanel.TabStop = false;
 
             imagePanel.AutoSize = false;
-            imagePanel.AutoScroll = false;
-            imagePanel.AutoSizeMode = AutoSizeMode.GrowOnly;
+            imagePanel.SizeMode = PictureBoxSizeMode.Zoom;  
             imagePanel.Location = this.Location;
             imagePanel.Name = "Image Panel";
             imagePanel.Size = this.Size;
@@ -79,12 +79,13 @@ namespace ImageEditor
 
             selectionBoxPanel.AutoSize = false;
             selectionBoxPanel.AutoScroll = false;
-            selectionBoxPanel.AutoSizeMode = AutoSizeMode.GrowOnly;
+            selectionBoxPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             selectionBoxPanel.Location = selectionArea.Location;
             selectionBoxPanel.Name = "Selection Box Panel";
             selectionBoxPanel.Size = selectionArea.Size;
             selectionBoxPanel.TabIndex = 0;
             selectionBoxPanel.TabStop = false;
+            selectionBoxPanel.Enabled = false;
             selectionBoxPanel.BackColor = Color.FromArgb(100, 0, 0, 255);
 
             this.Controls.Add(backgroundCheckerPanel);
@@ -224,6 +225,13 @@ namespace ImageEditor
             UpdatePanelImage();
         }
 
+        private void UpdateImageControl()
+        {
+            UpdateTransparentBackground();
+            UpdatePanelImage();
+            UpdateBoxSelction();
+        }
+
         private void UpdateTransparentBackground()
         {
             backgroundCheckerBitmap = new Bitmap(this.Width, this.Height);
@@ -270,7 +278,7 @@ namespace ImageEditor
             }
 
             backgroundCheckerPanel.Size = this.Size;
-            backgroundCheckerPanel.BackgroundImage = backgroundCheckerBitmap;
+            backgroundCheckerPanel.Image = backgroundCheckerBitmap;
 
             backgroundCheckerPanel.Invalidate();
             backgroundCheckerPanel.Update();
@@ -279,7 +287,7 @@ namespace ImageEditor
         public void UpdatePanelImage()
         {
             imagePanel.Size = this.Size;
-            imagePanel.BackgroundImage = imageBitmap;
+            imagePanel.Image = imageBitmap;
 
             imagePanel.Invalidate();
             imagePanel.Update();
@@ -300,7 +308,14 @@ namespace ImageEditor
         {
             selectionArea.Size = new Size();
             selectionArea.Location = new Point();
+
+            selectionBoxPanel.Location = selectionArea.Location;
+            selectionBoxPanel.Size = selectionArea.Size;
+
             form1.selectionAreaTextBox.Text = "";
+
+            selectionBoxPanel.Invalidate();
+            selectionBoxPanel.Update();
         }
 
         /*----Events----*/
@@ -336,6 +351,10 @@ namespace ImageEditor
             if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
             {
                 Console.WriteLine("Zoom");
+                scale = 1 + (e.Delta * 0.0001f);
+                Console.WriteLine(scale);
+                Scale(new SizeF(scale, scale));
+                UpdateImageControl();
             }
             else
             {
