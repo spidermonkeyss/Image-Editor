@@ -1,11 +1,8 @@
 # Image-Editor
-<p>
-My own image editor similar to microsoft paint.
-Pick a color and draw some stuff.
-Saves the file as .myimage.
-Can open .myimage and .png files.
-</p>
-
+<p>My own image editor similar to microsoft paint.</p>
+<p>Pick a color and draw some stuff.</p>
+<p>Saves the file as .myimage.</p>
+<p>Can open .myimage and .png files.</p>
 
 <h2>BUGS</h2>
 <ul>
